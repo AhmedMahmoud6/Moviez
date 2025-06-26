@@ -39,7 +39,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// return menu and navbar to their places if triggered and there's a screen width resize
+// return menu and navbar to their places if triggered and the screen width bigger than 768px
 window.addEventListener("resize", () => {
   const width = window.innerWidth;
   if (width > 768 && menuTriggered) {

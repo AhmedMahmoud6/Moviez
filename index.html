@@ -8,6 +8,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
@@ -102,6 +106,64 @@
       </ul>
     </aside>
 
+    <section
+      class="discover-content ml-[280px] flex-1 h-screen bg-[#1b1c22] p-8"
+    >
+      <div class="most-popular">
+        <h1 class="text-5xl text-white mb-8">Most Popular</h1>
+        <div class="swiper relative pb-10">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="displayed-movies-cont grid grid-cols-4 gap-8">
+                <div class="displayed-movie flex flex-col gap-2">
+                  <img
+                    src="days.webp"
+                    class="w-full h-full rounded-xl"
+                    alt="movie photo"
+                  />
+                  <h2 class="text-2xl text-white">28 Days Later</h2>
+                </div>
+                <div class="displayed-movie flex flex-col gap-2">
+                  <img
+                    src="days.webp"
+                    class="w-full h-full rounded-xl"
+                    alt="movie photo"
+                  />
+                  <h2 class="text-2xl text-white">28 Days Later</h2>
+                </div>
+                <div class="displayed-movie flex flex-col gap-2">
+                  <img
+                    src="days.webp"
+                    class="w-full h-full rounded-xl"
+                    alt="movie photo"
+                  />
+                  <h2 class="text-2xl text-white">28 Days Later</h2>
+                </div>
+                <div class="displayed-movie flex flex-col gap-2">
+                  <img
+                    src="days.webp"
+                    class="w-full h-full rounded-xl"
+                    alt="movie photo"
+                  />
+                  <h2 class="text-2xl text-white">28 Days Later</h2>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+
+          <!-- Add Navigation -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+    </section>
+
     <script type="module" src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="swiper.js"></script>
   </body>
 </html>
