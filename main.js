@@ -3,6 +3,7 @@
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
 let mobileMenu = document.querySelector(".side-bar");
 let menuTriggered = false;
+let navbar = document.querySelector("nav");
 
 mobileMenuBtn.addEventListener("click", () => {
   // open menu
@@ -11,6 +12,7 @@ mobileMenuBtn.addEventListener("click", () => {
       "max-md:-translate-x-full",
       "max-md:translate-x-0"
     );
+    navbar.classList.replace("translate-x-0", "translate-x-[280px]");
     menuTriggered = true;
   }
 });
@@ -22,6 +24,7 @@ document.addEventListener("click", (e) => {
       "max-md:translate-x-0",
       "max-md:-translate-x-full"
     );
+    navbar.classList.replace("translate-x-[280px]", "translate-x-0");
     menuTriggered = false;
   }
 });
