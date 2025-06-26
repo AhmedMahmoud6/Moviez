@@ -32,18 +32,9 @@ document.addEventListener("click", (e) => {
 
   if (e.target.classList.contains("main-switch")) {
     let selectedDiv = e.target;
-    let selectedSwitch = "";
-    if (selectedDiv.classList.contains("discover")) {
-      selectedSwitch = "discover";
-    } else if (selectedDiv.classList.contains("movies")) {
-      selectedSwitch = "movies";
-    } else if (selectedDiv.classList.contains("tv")) {
-      selectedSwitch = "tv";
-    } else if (selectedDiv.classList.contains("people")) {
-      selectedSwitch = "people";
-    } else {
-      selectedSwitch = "about";
-    }
+    let selectedSwitch = ["discover", "movies", "tv", "people", "about"].find(
+      (type) => selectedDiv.classList.contains(type)
+    );
     updateActiveSwitch(allSwitches, selectedSwitch);
   }
 });
