@@ -1,9 +1,15 @@
-import { getData, getCustomData, closeMenu } from "./functions.js";
+import {
+  getData,
+  getCustomData,
+  closeMenu,
+  updateActiveSwitch,
+} from "./functions.js";
 
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
 let mobileMenu = document.querySelector(".side-bar");
 let menuTriggered = false;
 let navbar = document.querySelector("nav");
+let allSwitches = document.querySelectorAll(".main-switch");
 
 mobileMenuBtn.addEventListener("click", () => {
   // open menu
@@ -22,6 +28,23 @@ document.addEventListener("click", (e) => {
   if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
     closeMenu(mobileMenu, navbar);
     menuTriggered = false;
+  }
+
+  if (e.target.classList.contains("main-switch")) {
+    let selectedDiv = e.target;
+    let selectedSwitch = "";
+    if (selectedDiv.classList.contains("discover")) {
+      selectedSwitch = "discover";
+    } else if (selectedDiv.classList.contains("movies")) {
+      selectedSwitch = "movies";
+    } else if (selectedDiv.classList.contains("tv")) {
+      selectedSwitch = "tv";
+    } else if (selectedDiv.classList.contains("people")) {
+      selectedSwitch = "people";
+    } else {
+      selectedSwitch = "about";
+    }
+    updateActiveSwitch(allSwitches, selectedSwitch);
   }
 });
 

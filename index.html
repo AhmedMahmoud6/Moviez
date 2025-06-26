@@ -33,13 +33,29 @@
 
       <div class="right-side flex gap-10 xl:flex hidden">
         <ul class="flex items-center gap-10 text-gray-500 text-xl">
-          <li class="cursor-pointer hover:text-white navbar-active">
+          <li
+            class="main-switch discover discover-nav cursor-pointer hover:text-white navbar-active"
+          >
             Discover
           </li>
-          <li class="cursor-pointer hover:text-white">Movies</li>
-          <li class="cursor-pointer hover:text-white">TV</li>
-          <li class="cursor-pointer hover:text-white">People</li>
-          <li class="cursor-pointer hover:text-white">About</li>
+          <li
+            class="main-switch movies movies-nav cursor-pointer hover:text-white"
+          >
+            Movies
+          </li>
+          <li class="main-switch tv tv-nav cursor-pointer hover:text-white">
+            TV
+          </li>
+          <li
+            class="main-switch people people-nav cursor-pointer hover:text-white"
+          >
+            People
+          </li>
+          <li
+            class="main-switch about about-nav cursor-pointer hover:text-white"
+          >
+            About
+          </li>
         </ul>
         <div class="profile-pic w-10 h-10 ring-3 rounded-full ring-green-400">
           <img
@@ -59,20 +75,28 @@
       </div>
       <ul class="flex flex-col gap-3 text-gray-500 text-xl">
         <li
-          class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] navbar-active menu-active relative"
+          class="main-switch discover discover-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] navbar-active menu-active relative"
         >
           Discover
         </li>
-        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+        <li
+          class="main-switch movies movies-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
+        >
           Movies
         </li>
-        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+        <li
+          class="main-switch tv tv-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
+        >
           TV
         </li>
-        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+        <li
+          class="main-switch people people-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
+        >
           People
         </li>
-        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+        <li
+          class="main-switch about about-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
+        >
           About
         </li>
       </ul>

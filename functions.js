@@ -17,3 +17,24 @@ export function closeMenu(mobileMenu, navbar) {
   );
   navbar.classList.replace("translate-x-[280px]", "translate-x-0");
 }
+
+export function updateActiveSwitch(allSwitches, selectedSwitch) {
+  allSwitches.forEach((currSwitch) => {
+    if (currSwitch.classList.contains("navbar-active")) {
+      currSwitch.classList.remove("navbar-active");
+
+      if (currSwitch.classList.contains("menu-active"))
+        currSwitch.classList.remove("menu-active");
+    }
+  });
+
+  let switches = document.querySelectorAll(`.${selectedSwitch}`);
+  switches.forEach((currSwitch) => {
+    if (currSwitch.classList.contains(`${selectedSwitch}-nav`))
+      currSwitch.classList.add("navbar-active");
+    if (currSwitch.classList.contains(`${selectedSwitch}-menu`)) {
+      currSwitch.classList.add("navbar-active");
+      currSwitch.classList.add("menu-active");
+    }
+  });
+}
