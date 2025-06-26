@@ -12,11 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <nav class="bg-[#131417] p-4 flex gap-10 items-center">
-      <div class="logo w-40 h-12">
-        <img src="logo-light.svg" class="w-full h-full" alt="Moviez Logo" />
-      </div>
-
+    <nav class="bg-[#131417] p-8 pl-70 flex gap-10 items-center">
       <div
         class="search-container bg-[#191c21] flex items-center rounded-2xl min-w-150"
       >
@@ -47,6 +43,31 @@
         </div>
       </div>
     </nav>
+
+    <aside class="side-bar w-70 h-screen fixed top-0 left-0 bg-[#131417] py-5">
+      <div class="logo w-40 h-12 flex justify-center w-full mb-10">
+        <img src="logo-light.svg" class="w-full h-full" alt="Moviez Logo" />
+      </div>
+      <ul class="flex flex-col gap-3 text-gray-500 text-xl">
+        <li
+          class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] navbar-active menu-active relative"
+        >
+          Discover
+        </li>
+        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+          Movies
+        </li>
+        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+          TV
+        </li>
+        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+          People
+        </li>
+        <li class="cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative">
+          About
+        </li>
+      </ul>
+    </aside>
 
     <script src="main.js"></script>
   </body>

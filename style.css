@@ -2,3 +2,13 @@
   color: #3df2af;
   font-weight: bold;
 }
+
+.menu-active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #3df2af;
+}
