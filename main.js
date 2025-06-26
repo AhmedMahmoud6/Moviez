@@ -1,4 +1,30 @@
-import { getData, getCustomData } from "./functions.js";
+// import { getData, getCustomData } from "./functions.js";
+
+let mobileMenuBtn = document.querySelector(".mobile-menu-button");
+let mobileMenu = document.querySelector(".side-bar");
+let menuTriggered = false;
+
+mobileMenuBtn.addEventListener("click", () => {
+  // open menu
+  if (!menuTriggered) {
+    mobileMenu.classList.replace(
+      "max-md:-translate-x-full",
+      "max-md:translate-x-0"
+    );
+    menuTriggered = true;
+  }
+});
+
+document.addEventListener("click", (e) => {
+  // close menu
+  if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+    mobileMenu.classList.replace(
+      "max-md:translate-x-0",
+      "max-md:-translate-x-full"
+    );
+    menuTriggered = false;
+  }
+});
 
 // const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
 
