@@ -3,6 +3,8 @@ import {
   getCustomData,
   closeMenu,
   updateActiveSwitch,
+  createMoviesDiscovery,
+  renderData,
 } from "./functions.js";
 
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
@@ -11,6 +13,19 @@ let menuTriggered = false;
 let navbar = document.querySelector("nav");
 let allSwitches = document.querySelectorAll(".main-switch");
 let discoverContainer = document.querySelector(".discover-container");
+
+let mostPopularSwiperWrapper = document.querySelector(
+  ".most-popular .swiper-wrapper"
+);
+let topRatedSwiperWrapper = document.querySelector(
+  ".top-rated .swiper-wrapper"
+);
+let nowPlayingSwiperWrapper = document.querySelector(
+  ".now-playing .swiper-wrapper"
+);
+let upcomingSwiperWrapper = document.querySelector(".upcoming .swiper-wrapper");
+
+let imagePath = "https://image.tmdb.org/t/p/original";
 
 mobileMenuBtn.addEventListener("click", () => {
   // open menu
@@ -62,17 +77,20 @@ window.addEventListener("resize", () => {
   }
 });
 
-// const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
+const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
 
-// let getPopular = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=en-US`;
-// let searchQuery = "";
-// let searchMovies = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${searchQuery}`;
-// let selectedGenre = 0;
-// let discoverMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&with_genres=${selectedGenre}`;
-// let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&language=en-US`;
+let getPopular = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=en-US`;
+let searchQuery = "";
+let searchMovies = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${searchQuery}`;
+let selectedGenre = 0;
+let discoverMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&with_genres=${selectedGenre}`;
+let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&language=en-US`;
 
 // getData(getPopular).then((data) => {
 //   data.results.forEach((movie) => {
-//     console.log(movie);
+//     createMoviesDiscovery(movie, imagePath, mostPopularSwiperWrapper);
 //   });
 // });
+
+await renderData(getData, getPopular, imagePath, mostPopularSwiperWrapper);
+await renderData(getData, upcomingMovie, imagePath, upcomingSwiperWrapper);
