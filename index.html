@@ -11,6 +11,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
+    <nav class="bg-[#131417] p-4 flex gap-10 items-center">
+      <div class="logo w-40 h-12">
+        <img src="logo-light.svg" class="w-full h-full" alt="Moviez Logo" />
+      </div>
+
+      <div
+        class="search-container bg-[#191c21] flex items-center rounded-2xl min-w-150"
+      >
+        <input
+          type="text"
+          class="placeholder:text-gray-400 w-full h-full p-2 px-4 outline-none text-white"
+          placeholder="Search"
+        />
+        <i class="fa-solid fa-magnifying-glass text-gray-400 px-4"></i>
+      </div>
+
+      <div class="right-side flex gap-10">
+        <ul class="flex items-center gap-10 text-gray-500 text-xl">
+          <li class="cursor-pointer hover:text-white">Discover</li>
+          <li class="cursor-pointer hover:text-white">Movies</li>
+          <li class="cursor-pointer hover:text-white">TV</li>
+          <li class="cursor-pointer hover:text-white">People</li>
+          <li class="cursor-pointer hover:text-white">About</li>
+        </ul>
+        <div class="profile-pic w-10 h-10 ring-3 rounded-full ring-green-400">
+          <img
+            src="man-5.jpg"
+            class="w-full h-full rounded-full ring-1 ring-black"
+            alt="profile pic"
+          />
+        </div>
+      </div>
+    </nav>
+
     <script src="main.js"></script>
   </body>
 </html>
