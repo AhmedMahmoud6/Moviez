@@ -10,11 +10,12 @@ export async function getCustomData(api, custom) {
   return myData;
 }
 
-export function closeMenu(mobileMenu, navbar) {
+export function closeMenu(mobileMenu, navbar, discoverContainer) {
   mobileMenu.classList.replace(
     "max-md:translate-x-0",
     "max-md:-translate-x-full"
   );
+  discoverContainer.classList.replace("translate-x-[280px]", "translate-x-0");
   navbar.classList.replace("translate-x-[280px]", "translate-x-0");
 }
 

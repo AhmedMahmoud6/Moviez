@@ -10,6 +10,7 @@ let mobileMenu = document.querySelector(".side-bar");
 let menuTriggered = false;
 let navbar = document.querySelector("nav");
 let allSwitches = document.querySelectorAll(".main-switch");
+let discoverContainer = document.querySelector(".discover-container");
 
 mobileMenuBtn.addEventListener("click", () => {
   // open menu
@@ -18,18 +19,31 @@ mobileMenuBtn.addEventListener("click", () => {
       "max-md:-translate-x-full",
       "max-md:translate-x-0"
     );
+    discoverContainer.classList.replace("translate-x-0", "translate-x-[280px]");
     navbar.classList.replace("translate-x-0", "translate-x-[280px]");
     menuTriggered = true;
+  } else {
+    closeMenu(mobileMenu, navbar, discoverContainer);
+    menuTriggered = false;
   }
 });
 
 document.addEventListener("click", (e) => {
   // close menu
   if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-    closeMenu(mobileMenu, navbar);
+    closeMenu(mobileMenu, navbar, discoverContainer);
     menuTriggered = false;
   }
 
+  // close menu when clicking on anything
+  if (window.innerWidth < 400) {
+    if (mobileMenu.contains(e.target)) {
+      closeMenu(mobileMenu, navbar, discoverContainer);
+      menuTriggered = false;
+    }
+  }
+
+  // update selected link
   if (e.target.classList.contains("main-switch")) {
     let selectedDiv = e.target;
     let selectedSwitch = ["discover", "movies", "tv", "people", "about"].find(
@@ -43,7 +57,7 @@ document.addEventListener("click", (e) => {
 window.addEventListener("resize", () => {
   const width = window.innerWidth;
   if (width > 768 && menuTriggered) {
-    closeMenu(mobileMenu, navbar);
+    closeMenu(mobileMenu, navbar, discoverContainer);
     menuTriggered = false;
   }
 });
