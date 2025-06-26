@@ -1,4 +1,4 @@
-// import { getData, getCustomData } from "./functions.js";
+import { getData, getCustomData, closeMenu } from "./functions.js";
 
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
 let mobileMenu = document.querySelector(".side-bar");
@@ -20,11 +20,16 @@ mobileMenuBtn.addEventListener("click", () => {
 document.addEventListener("click", (e) => {
   // close menu
   if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-    mobileMenu.classList.replace(
-      "max-md:translate-x-0",
-      "max-md:-translate-x-full"
-    );
-    navbar.classList.replace("translate-x-[280px]", "translate-x-0");
+    closeMenu(mobileMenu, navbar);
+    menuTriggered = false;
+  }
+});
+
+// return menu and navbar to their places if triggered and there's a screen width resize
+window.addEventListener("resize", () => {
+  const width = window.innerWidth;
+  if (width > 768 && menuTriggered) {
+    closeMenu(mobileMenu, navbar);
     menuTriggered = false;
   }
 });
