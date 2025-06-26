@@ -1,5 +1,9 @@
+:root {
+  --main-color: #3df2af;
+}
+
 .navbar-active {
-  color: #3df2af;
+  color: var(--main-color);
   font-weight: bold;
 }
 
@@ -10,9 +14,22 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #3df2af;
+  background-color: var(--main-color);
 }
 
 .swiper {
   padding-bottom: 60px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--main-color);
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--main-color);
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--main-color);
 }
