@@ -59,7 +59,7 @@ export function createMoviesDiscovery(movie, imagePath, SwiperWrapper) {
   let popularMovieHTML = `
     <div class="swiper-slide">
       <div
-        class="displayed-movie min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer"
+        class="displayed-movie min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
       >
         <img
           src="${imagePath}${poster_path}"

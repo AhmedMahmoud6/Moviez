@@ -80,6 +80,8 @@ window.addEventListener("resize", () => {
 const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
 
 let getPopular = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=en-US`;
+let topRated = `https://api.themoviedb.org/3/movie/top_rated?api_key=${APIKEY}&language=en-US&page=1`;
+let nowPlaying = `https://api.themoviedb.org/3/movie/now_playing?api_key=${APIKEY}&language=en-US&page=1`;
 let searchQuery = "";
 let searchMovies = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${searchQuery}`;
 let selectedGenre = 0;
@@ -94,3 +96,5 @@ let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKE
 
 await renderData(getData, getPopular, imagePath, mostPopularSwiperWrapper);
 await renderData(getData, upcomingMovie, imagePath, upcomingSwiperWrapper);
+await renderData(getData, topRated, imagePath, topRatedSwiperWrapper);
+await renderData(getData, nowPlaying, imagePath, nowPlayingSwiperWrapper);
