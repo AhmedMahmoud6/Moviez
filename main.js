@@ -15,6 +15,7 @@ let allSwitches = document.querySelectorAll(".main-switch");
 let discoverContainer = document.querySelector(".discover-container");
 let trendingMovieDiv = document.querySelector(".trending-movie");
 let trendingTvDiv = document.querySelector(".trending-tv");
+let trendingParent = document.querySelector(".trending");
 
 let mostPopularSwiperWrapper = document.querySelector(
   ".most-popular .swiper-wrapper"
@@ -79,6 +80,13 @@ window.addEventListener("resize", () => {
   }
 });
 
+window.addEventListener("scroll", () => {
+  const el = trendingParent.querySelector(".trending-content");
+  if (!el.classList.contains("sticky")) {
+    el.classList.add("sticky", "top-[50px]");
+  }
+});
+
 const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
 
 let getPopular = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=en-US`;
@@ -92,7 +100,7 @@ let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKE
 let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${APIKEY}`;
 let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
 
-getData(trendingMovie).then((result) => console.log(result));
+getData(getPopular).then((result) => console.log(result));
 
 await renderData(
   getData,
