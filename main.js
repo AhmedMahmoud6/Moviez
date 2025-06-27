@@ -5,6 +5,7 @@ import {
   updateActiveSwitch,
   renderData,
   renderTrending,
+  getMovieDataById,
 } from "./functions.js";
 
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
@@ -46,7 +47,7 @@ mobileMenuBtn.addEventListener("click", () => {
   }
 });
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", async (e) => {
   // close menu
   if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
     closeMenu(mobileMenu, navbar, discoverContainer);
@@ -68,6 +69,12 @@ document.addEventListener("click", (e) => {
       (type) => selectedDiv.classList.contains(type)
     );
     updateActiveSwitch(allSwitches, selectedSwitch);
+  }
+
+  if (e.target.closest(".open-movie")) {
+    let clickedMovie = e.target.closest(".open-movie");
+    document.querySelector("section").remove();
+    await getMovieDataById(clickedMovie.id, APIKEY);
   }
 });
 
@@ -95,12 +102,12 @@ let nowPlaying = `https://api.themoviedb.org/3/movie/now_playing?api_key=${APIKE
 let searchQuery = "";
 let searchMovies = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${searchQuery}`;
 let selectedGenre = 0;
-let discoverMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&with_genres=${selectedGenre}`;
+let genreMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&with_genres=${selectedGenre}`;
 let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&language=en-US`;
 let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${APIKEY}`;
 let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
 
-getData(getPopular).then((result) => console.log(result));
+// getData(trendingMovie).then((result) => console.log(result));
 
 await renderData(
   getData,

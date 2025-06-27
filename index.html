@@ -361,7 +361,9 @@
         <div
           class="trending-content max-[450px]:!min-w-[0px] max-xl:min-w-[300px] max-[450px]:flex-col max-xl:flex max-xl:justify-center max-xl:gap-10 max-xl:h-fit"
         >
-          <div class="trending-movie mb-8 max-xl:basis-1/2 cursor-pointer">
+          <div
+            class="trending-movie open-movie mb-8 max-xl:basis-1/2 cursor-pointer"
+          >
             <div class="trending-title mb-5 flex items-center gap-3 text-white">
               <span class="block w-5 h-1 bg-green-400"></span>
               <h1 class="text-2xl">Trending movie</h1>
@@ -399,6 +401,105 @@
           </div>
         </div>
       </section>
+    </section>
+
+    <section class="movie h-screen md:pl-[280px]">
+      <div class="movie-details-container relative h-170">
+        <img
+          src="days.webp"
+          class="w-full h-full absolute top-0 opacity-30 object-cover"
+          alt="movie banner"
+        />
+        <div class="movie-details-parent z-10 relative h-full flex gap-10 p-20">
+          <div class="movie-poster">
+            <img
+              src="days.webp"
+              class="w-80 h-full rounded-xl"
+              alt="movie poster"
+            />
+          </div>
+          <div class="movie-details flex flex-col justify-center gap-5">
+            <h1 class="text-5xl text-white font-bold">Lilo & Stitch</h1>
+            <div class="movie-rating-parent flex items-center gap-10">
+              <div class="stars flex gap-2">
+                <i class="fa-solid fa-star text-xl text-yellow-400"></i>
+                <i class="fa-solid fa-star text-xl text-yellow-400"></i>
+                <i class="fa-solid fa-star text-xl text-yellow-400"></i>
+                <i class="fa-solid fa-star text-xl text-gray-500"></i>
+                <i class="fa-solid fa-star text-xl text-gray-500"></i>
+              </div>
+              <div class="movie-rating">
+                <h1 class="text-gray-400 text-xl">
+                  <span class="text-white">7.102</span> / 10
+                </h1>
+              </div>
+            </div>
+            <div class="movie-genre flex gap-4">
+              <div class="genre bg-green-400 px-4 text-white rounded-xl">
+                Family
+              </div>
+              <div class="genre bg-green-400 px-4 text-white rounded-xl">
+                Science Fiction
+              </div>
+              <div class="genre bg-green-400 px-4 text-white rounded-xl">
+                Comedy
+              </div>
+              <div class="genre bg-green-400 px-4 text-white rounded-xl">
+                Adventure
+              </div>
+            </div>
+            <div class="movie-info flex gap-6">
+              <div
+                class="movie-duration text-gray-300 text-xl flex gap-4 items-center"
+              >
+                <i class="fa-solid fa-clock text-base"></i>
+                <p>1h 48min</p>
+              </div>
+
+              <div
+                class="movie-revenue text-gray-300 text-xl flex gap-4 items-center"
+              >
+                <i class="fa-solid fa-wallet"></i>
+                <p>$910,349,181.00</p>
+              </div>
+
+              <div
+                class="movie-date text-gray-300 text-xl flex gap-4 items-center"
+              >
+                <i class="fa-solid fa-calendar-week"></i>
+                <p>2025-05-17</p>
+              </div>
+
+              <div
+                class="movie-dub text-gray-300 text-xl flex gap-4 items-center"
+              >
+                <i class="fa-solid fa-volume-high"></i>
+                <p>English</p>
+              </div>
+            </div>
+            <div class="movie-quote">
+              <p class="font-bold text-xl text-gray-400 italic">
+                Hold on to your coconuts.
+              </p>
+            </div>
+            <div class="movie-buttons flex gap-6">
+              <button
+                class="text-white flex gap-4 bg-green-400 p-3 px-12 cursor-pointer group"
+              >
+                <i
+                  class="fa-solid fa-play text-2xl group-hover:scale-120 transition-all duration-200"
+                ></i>
+                <h1 class="font-bold">PLAY TRAILER</h1>
+              </button>
+              <button
+                class="text-gray-400 flex gap-4 outline-2 outline-gray-400 p-3 px-12 cursor-pointer hover:bg-white hover:text-black hover:outline-transparent transition-all duration-200"
+              >
+                <h1 class="font-bold">ADD TO WATCHLIST</h1>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <script type="module" src="main.js"></script>

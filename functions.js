@@ -29,7 +29,7 @@ export async function renderTrending(
   let myData = await funcData(funcParam);
   let trendingObj = myData.results[0];
 
-  const { title, name, backdrop_path } = trendingObj;
+  const { title, id, name, backdrop_path } = trendingObj;
 
   let trendingHTML = `
   <div
@@ -44,6 +44,7 @@ export async function renderTrending(
   <h2 class="text-white text-xl m-4">${movie ? title : name}</h2>
   `;
 
+  trendingDiv.id = id;
   trendingDiv.querySelector(".loading-skeleton").classList.add("hidden");
   trendingDiv.insertAdjacentHTML("beforeend", trendingHTML);
 }
@@ -85,12 +86,13 @@ export function updateActiveSwitch(allSwitches, selectedSwitch) {
 }
 
 export function createMoviesDiscovery(movie, imagePath, SwiperWrapper) {
-  const { title, poster_path, vote_average } = movie;
+  const { title, id, poster_path, vote_average } = movie;
 
   let popularMovieHTML = `
     <div class="swiper-slide">
       <div
-        class="displayed-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+        class="displayed-movie open-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+        id="${id}"
       >
         <img
           src="${imagePath}${poster_path}"
@@ -108,4 +110,11 @@ export function createMoviesDiscovery(movie, imagePath, SwiperWrapper) {
     </div>
     `;
   SwiperWrapper.insertAdjacentHTML("beforeend", popularMovieHTML);
+}
+
+export async function getMovieDataById(movieId, APIKEY) {
+  let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${APIKEY}`;
+  let moviePromise = await fetch(movieEndpoint);
+  let movieData = await moviePromise.json();
+  return movieData;
 }
