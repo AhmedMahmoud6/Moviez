@@ -33,3 +33,16 @@
 .swiper-pagination-bullet {
   background-color: var(--main-color);
 }
+
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

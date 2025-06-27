@@ -8,13 +8,15 @@ export async function renderData(
   funcData,
   funcParam,
   imagePath,
-  SwiperWrapper
+  SwiperWrapper,
+  currentCategory
 ) {
   let myData = await funcData(funcParam);
   let dataObj = myData.results;
   dataObj.forEach((movie) => {
     createMoviesDiscovery(movie, imagePath, SwiperWrapper);
   });
+  currentCategory.querySelector(".loading-skeleton").classList.add("hidden");
 }
 
 export async function getCustomData(api, custom) {
@@ -59,7 +61,7 @@ export function createMoviesDiscovery(movie, imagePath, SwiperWrapper) {
   let popularMovieHTML = `
     <div class="swiper-slide">
       <div
-        class="displayed-movie min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+        class="displayed-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
       >
         <img
           src="${imagePath}${poster_path}"

@@ -13,6 +13,7 @@ let menuTriggered = false;
 let navbar = document.querySelector("nav");
 let allSwitches = document.querySelectorAll(".main-switch");
 let discoverContainer = document.querySelector(".discover-container");
+let skeletonsDiscover = document.querySelectorAll(".loading-skeleton");
 
 let mostPopularSwiperWrapper = document.querySelector(
   ".most-popular .swiper-wrapper"
@@ -94,7 +95,31 @@ let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKE
 //   });
 // });
 
-await renderData(getData, getPopular, imagePath, mostPopularSwiperWrapper);
-await renderData(getData, upcomingMovie, imagePath, upcomingSwiperWrapper);
-await renderData(getData, topRated, imagePath, topRatedSwiperWrapper);
-await renderData(getData, nowPlaying, imagePath, nowPlayingSwiperWrapper);
+await renderData(
+  getData,
+  getPopular,
+  imagePath,
+  mostPopularSwiperWrapper,
+  document.querySelector(".most-popular")
+);
+await renderData(
+  getData,
+  upcomingMovie,
+  imagePath,
+  upcomingSwiperWrapper,
+  document.querySelector(".upcoming")
+);
+await renderData(
+  getData,
+  topRated,
+  imagePath,
+  topRatedSwiperWrapper,
+  document.querySelector(".top-rated")
+);
+await renderData(
+  getData,
+  nowPlaying,
+  imagePath,
+  nowPlayingSwiperWrapper,
+  document.querySelector(".now-playing")
+);
