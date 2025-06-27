@@ -19,6 +19,35 @@ export async function renderData(
   currentCategory.querySelector(".loading-skeleton").classList.add("hidden");
 }
 
+export async function renderTrending(
+  funcData,
+  funcParam,
+  imagePath,
+  trendingDiv,
+  movie = true
+) {
+  let myData = await funcData(funcParam);
+  let trendingObj = myData.results[0];
+
+  const { title, name, backdrop_path } = trendingObj;
+
+  let trendingHTML = `
+  <div
+    class="trending-image min-w-50 w-11/12 h-[200px] m-auto flex justify-center"
+  >
+    <img
+      src="${imagePath}${backdrop_path}"
+      class="w-full h-full object-cover"
+      alt="trending movie image"
+    />
+  </div>
+  <h2 class="text-white text-xl m-4">${movie ? title : name}</h2>
+  `;
+
+  trendingDiv.querySelector(".loading-skeleton").classList.add("hidden");
+  trendingDiv.insertAdjacentHTML("beforeend", trendingHTML);
+}
+
 export async function getCustomData(api, custom) {
   let requestData = await fetch(`${api}&${custom}`);
   let myData = await requestData.json();
