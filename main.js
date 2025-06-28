@@ -5,11 +5,14 @@ import {
   updateActiveSwitch,
   renderData,
   renderTrending,
-  getMovieDataById,
-  getMovieCastById,
 } from "./functions.js";
 
-import { createMovie, createGenres, createCast } from "./components/movie.js";
+import {
+  createMovie,
+  createGenres,
+  createCast,
+  createSimillar,
+} from "./components/movie.js";
 
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
 let mobileMenu = document.querySelector(".side-bar");
@@ -33,6 +36,8 @@ let nowPlayingSwiperWrapper = document.querySelector(
 let upcomingSwiperWrapper = document.querySelector(".upcoming .swiper-wrapper");
 
 let imagePath = "https://image.tmdb.org/t/p/original";
+export let defaultPhoto =
+  "https://i.pinimg.com/736x/e6/e4/df/e6e4df26ba752161b9fc6a17321fa286.jpg";
 
 mobileMenuBtn.addEventListener("click", () => {
   // open menu
@@ -76,8 +81,24 @@ document.addEventListener("click", async (e) => {
 
   if (e.target.closest(".open-movie")) {
     let clickedMovie = e.target.closest(".open-movie");
-    let clickedMovieDetails = await getMovieDataById(clickedMovie.id, APIKEY);
-    let clickedMovieCast = await getMovieCastById(clickedMovie.id, APIKEY);
+    let clickedMovieDetails = await getCustomData(
+      `https://api.themoviedb.org/3/movie`,
+      clickedMovie.id,
+      "",
+      APIKEY
+    );
+    let clickedMovieCast = await getCustomData(
+      `https://api.themoviedb.org/3/movie`,
+      clickedMovie.id,
+      "/credits",
+      APIKEY
+    );
+    let clickedMovieSimillar = await getCustomData(
+      `https://api.themoviedb.org/3/movie`,
+      clickedMovie.id,
+      "/similar",
+      APIKEY
+    );
 
     const {
       title,
@@ -93,7 +114,6 @@ document.addEventListener("click", async (e) => {
       release_date: movieDate,
       genres,
     } = clickedMovieDetails;
-    console.log(clickedMovieDetails);
     createMovie(
       movieBanner,
       moviePoster,
@@ -111,7 +131,13 @@ document.addEventListener("click", async (e) => {
     createCast(
       clickedMovieCast,
       imagePath,
-      document.querySelector(".cast .swiper-wrapper")
+      document.querySelector(".cast .swiper-wrapper"),
+      defaultPhoto
+    );
+    createSimillar(
+      clickedMovieSimillar,
+      imagePath,
+      document.querySelector(".simillar .swiper-wrapper")
     );
   }
 });
@@ -146,7 +172,7 @@ let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${
 let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
 
 // getData(movieDetails).then((result) => console.log(result));
-console.log(await getMovieCastById("1311844", APIKEY));
+// console.log(await getMovieCastById("1311844", APIKEY));
 
 await renderData(
   getData,

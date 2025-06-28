@@ -156,101 +156,7 @@ export function createMovie(
               class="second-swiper w-120 overflow-hidden relative pb-10 max-2xl:pb-20 max-2xl:w-full 2xl:max-h-[270px]"
             >
               <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <div
-                    class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                    id="${""}"
-                  >
-                    <img
-                      src="days.webp"
-                      class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                      alt="movie photo"
-                    />
-                    <h2 class="text-2xl text-white truncate w-full">
-                      28 Days Later
-                    </h2>
-                    <div class="rate flex items-center gap-2">
-                      <i class="fa-solid fa-star text-yellow-300"></i>
-                      <h2 class="text-gray-400">7.921</h2>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div
-                    class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                    id="${""}"
-                  >
-                    <img
-                      src="days.webp"
-                      class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                      alt="movie photo"
-                    />
-                    <h2 class="text-2xl text-white truncate w-full">
-                      28 Days Later
-                    </h2>
-                    <div class="rate flex items-center gap-2">
-                      <i class="fa-solid fa-star text-yellow-300"></i>
-                      <h2 class="text-gray-400">7.921</h2>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div
-                    class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                    id="${""}"
-                  >
-                    <img
-                      src="days.webp"
-                      class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                      alt="movie photo"
-                    />
-                    <h2 class="text-2xl text-white truncate w-full">
-                      28 Days Later
-                    </h2>
-                    <div class="rate flex items-center gap-2">
-                      <i class="fa-solid fa-star text-yellow-300"></i>
-                      <h2 class="text-gray-400">7.921</h2>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div
-                    class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                    id="${""}"
-                  >
-                    <img
-                      src="days.webp"
-                      class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                      alt="movie photo"
-                    />
-                    <h2 class="text-2xl text-white truncate w-full">
-                      28 Days Later
-                    </h2>
-                    <div class="rate flex items-center gap-2">
-                      <i class="fa-solid fa-star text-yellow-300"></i>
-                      <h2 class="text-gray-400">7.921</h2>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div
-                    class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                    id="${""}"
-                  >
-                    <img
-                      src="days.webp"
-                      class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                      alt="movie photo"
-                    />
-                    <h2 class="text-2xl text-white truncate w-full">
-                      28 Days Later
-                    </h2>
-                    <div class="rate flex items-center gap-2">
-                      <i class="fa-solid fa-star text-yellow-300"></i>
-                      <h2 class="text-gray-400">7.921</h2>
-                    </div>
-                  </div>
-                </div>
+
               </div>
 
               <!-- Add Navigation -->
@@ -389,11 +295,8 @@ export function createGenres(movieGenres, genresParent) {
   });
 }
 
-export function createCast(movieCast, imagePath, castParent) {
-  let defaultPhoto =
-    "https://i.pinimg.com/736x/e6/e4/df/e6e4df26ba752161b9fc6a17321fa286.jpg";
+export function createCast(movieCast, imagePath, castParent, defaultPhoto) {
   movieCast.cast.forEach((cast) => {
-    console.log(cast);
     const { name, profile_path } = cast;
     let castHTML = `
       <div class="swiper-slide">
@@ -409,5 +312,34 @@ export function createCast(movieCast, imagePath, castParent) {
       `;
 
     castParent.insertAdjacentHTML("beforeend", castHTML);
+  });
+}
+
+export function createSimillar(movieSimillar, imagePath, simillarParent) {
+  movieSimillar.results.forEach((simillar) => {
+    const { title, vote_average, poster_path, id } = simillar;
+    let simillarHTML = `
+    <div class="swiper-slide">
+        <div
+        class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+        id="${id}"
+        >
+        <img
+            src="${imagePath}${poster_path}"
+            class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3]"
+            alt="movie photo"
+        />
+        <h2 class="text-2xl text-white truncate w-full">
+            ${title}
+        </h2>
+        <div class="rate flex items-center gap-2">
+            <i class="fa-solid fa-star text-yellow-300"></i>
+            <h2 class="text-gray-400">${vote_average}</h2>
+        </div>
+        </div>
+    </div>
+    `;
+
+    simillarParent.insertAdjacentHTML("beforeend", simillarHTML);
   });
 }

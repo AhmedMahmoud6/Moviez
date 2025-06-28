@@ -51,8 +51,9 @@ export async function renderTrending(
   trendingDiv.insertAdjacentHTML("beforeend", trendingHTML);
 }
 
-export async function getCustomData(api, custom) {
-  let requestData = await fetch(`${api}&${custom}`);
+export async function getCustomData(api, movieId = "", custom = "", APIKEY) {
+  console.log(`${api}/${movieId}${custom}?api_key=${APIKEY}`);
+  let requestData = await fetch(`${api}/${movieId}${custom}?api_key=${APIKEY}`);
   let myData = await requestData.json();
   return myData;
 }
@@ -87,19 +88,26 @@ export function updateActiveSwitch(allSwitches, selectedSwitch) {
   });
 }
 
-export async function getMovieDataById(movieId, APIKEY) {
-  let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${APIKEY}`;
-  let moviePromise = await fetch(movieEndpoint);
-  let movieData = await moviePromise.json();
-  return movieData;
-}
+// export async function getMovieDataById(movieId, APIKEY) {
+//   let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${APIKEY}`;
+//   let moviePromise = await fetch(movieEndpoint);
+//   let movieData = await moviePromise.json();
+//   return movieData;
+// }
 
-export async function getMovieCastById(movieId, APIKEY) {
-  let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${APIKEY}`;
-  let moviePromise = await fetch(movieEndpoint);
-  let movieData = await moviePromise.json();
-  return movieData;
-}
+// export async function getMovieCastById(movieId, APIKEY) {
+//   let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${APIKEY}`;
+//   let moviePromise = await fetch(movieEndpoint);
+//   let movieData = await moviePromise.json();
+//   return movieData;
+// }
+
+// export async function getMovieSimillarById(movieId, APIKEY) {
+//   let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${APIKEY}`;
+//   let moviePromise = await fetch(movieEndpoint);
+//   let movieData = await moviePromise.json();
+//   return movieData;
+// }
 
 export function convertMinutesToHours(minutes) {
   const hours = Math.floor(minutes / 60);
