@@ -99,7 +99,7 @@ export function createMovie(
                 class="movie-dub text-gray-300 text-xl max-xl:text-base flex gap-4 items-center"
               >
                 <i class="fa-solid fa-volume-high"></i>
-                <p>${movieLanguage[0].name}</p>
+                <p>${movieLanguage.map((language) => language.english_name)}</p>
               </div>
             </div>
             <div class="movie-quote">
@@ -172,101 +172,7 @@ export function createMovie(
             class="second-swiper overflow-hidden relative pb-10 max-2xl:pb-20 w-full"
           >
             <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <div
-                  class="displayed-movie open-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                  id="${""}"
-                >
-                  <img
-                    src="days.webp"
-                    class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                    alt="movie photo"
-                  />
-                  <h2 class="text-2xl text-white truncate w-full">
-                    28 Days Later
-                  </h2>
-                  <div class="rate flex items-center gap-2">
-                    <i class="fa-solid fa-star text-yellow-300"></i>
-                    <h2 class="text-gray-400">7.921</h2>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="displayed-movie open-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                  id="${""}"
-                >
-                  <img
-                    src="days.webp"
-                    class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                    alt="movie photo"
-                  />
-                  <h2 class="text-2xl text-white truncate w-full">
-                    28 Days Later
-                  </h2>
-                  <div class="rate flex items-center gap-2">
-                    <i class="fa-solid fa-star text-yellow-300"></i>
-                    <h2 class="text-gray-400">7.921</h2>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="displayed-movie open-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                  id="${""}"
-                >
-                  <img
-                    src="days.webp"
-                    class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                    alt="movie photo"
-                  />
-                  <h2 class="text-2xl text-white truncate w-full">
-                    28 Days Later
-                  </h2>
-                  <div class="rate flex items-center gap-2">
-                    <i class="fa-solid fa-star text-yellow-300"></i>
-                    <h2 class="text-gray-400">7.921</h2>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="displayed-movie open-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                  id="${""}"
-                >
-                  <img
-                    src="days.webp"
-                    class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                    alt="movie photo"
-                  />
-                  <h2 class="text-2xl text-white truncate w-full">
-                    28 Days Later
-                  </h2>
-                  <div class="rate flex items-center gap-2">
-                    <i class="fa-solid fa-star text-yellow-300"></i>
-                    <h2 class="text-gray-400">7.921</h2>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div
-                  class="displayed-movie open-movie fade-in min-h-[300px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-                  id="${""}"
-                >
-                  <img
-                    src="days.webp"
-                    class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300"
-                    alt="movie photo"
-                  />
-                  <h2 class="text-2xl text-white truncate w-full">
-                    28 Days Later
-                  </h2>
-                  <div class="rate flex items-center gap-2">
-                    <i class="fa-solid fa-star text-yellow-300"></i>
-                    <h2 class="text-gray-400">7.921</h2>
-                  </div>
-                </div>
-              </div>
+            
             </div>
 
             <!-- Add Navigation -->

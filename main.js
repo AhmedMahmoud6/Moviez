@@ -99,6 +99,12 @@ document.addEventListener("click", async (e) => {
       "/similar",
       APIKEY
     );
+    let clickedMovieRecommendations = await getCustomData(
+      `https://api.themoviedb.org/3/movie`,
+      clickedMovie.id,
+      "/recommendations",
+      APIKEY
+    );
 
     const {
       title,
@@ -138,6 +144,11 @@ document.addEventListener("click", async (e) => {
       clickedMovieSimillar,
       imagePath,
       document.querySelector(".simillar .swiper-wrapper")
+    );
+    createSimillar(
+      clickedMovieRecommendations,
+      imagePath,
+      document.querySelector(".recommendations .swiper-wrapper")
     );
   }
 });
