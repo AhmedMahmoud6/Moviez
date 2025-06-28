@@ -8,6 +8,8 @@ import {
   getMovieDataById,
 } from "./functions.js";
 
+import { createMovie, createGenres } from "./components/movie.js";
+
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
 let mobileMenu = document.querySelector(".side-bar");
 let menuTriggered = false;
@@ -73,8 +75,36 @@ document.addEventListener("click", async (e) => {
 
   if (e.target.closest(".open-movie")) {
     let clickedMovie = e.target.closest(".open-movie");
-    document.querySelector("section").remove();
-    await getMovieDataById(clickedMovie.id, APIKEY);
+    let clickedMovieDetails = await getMovieDataById(clickedMovie.id, APIKEY);
+    const {
+      title,
+      id: movieId,
+      backdrop_path: movieBanner,
+      poster_path: moviePoster,
+      vote_average: movieRate,
+      tagline: quote,
+      overview: movieDesc,
+      spoken_languages: movieLang,
+      runtime: movieDuration,
+      revenue,
+      release_date: movieDate,
+      genres,
+    } = clickedMovieDetails;
+    console.log(clickedMovieDetails);
+    createMovie(
+      movieBanner,
+      moviePoster,
+      imagePath,
+      title,
+      movieRate,
+      movieDuration,
+      revenue,
+      movieDate,
+      movieLang,
+      quote,
+      movieDesc
+    );
+    createGenres(genres, document.querySelector(".movie-genre"));
   }
 });
 
@@ -107,7 +137,7 @@ let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKE
 let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${APIKEY}`;
 let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
 
-// getData(trendingMovie).then((result) => console.log(result));
+// getData(movieDetails).then((result) => console.log(result));
 
 await renderData(
   getData,
