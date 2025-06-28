@@ -6,9 +6,10 @@ import {
   renderData,
   renderTrending,
   getMovieDataById,
+  getMovieCastById,
 } from "./functions.js";
 
-import { createMovie, createGenres } from "./components/movie.js";
+import { createMovie, createGenres, createCast } from "./components/movie.js";
 
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
 let mobileMenu = document.querySelector(".side-bar");
@@ -76,6 +77,8 @@ document.addEventListener("click", async (e) => {
   if (e.target.closest(".open-movie")) {
     let clickedMovie = e.target.closest(".open-movie");
     let clickedMovieDetails = await getMovieDataById(clickedMovie.id, APIKEY);
+    let clickedMovieCast = await getMovieCastById(clickedMovie.id, APIKEY);
+
     const {
       title,
       id: movieId,
@@ -105,6 +108,11 @@ document.addEventListener("click", async (e) => {
       movieDesc
     );
     createGenres(genres, document.querySelector(".movie-genre"));
+    createCast(
+      clickedMovieCast,
+      imagePath,
+      document.querySelector(".cast .swiper-wrapper")
+    );
   }
 });
 
@@ -138,6 +146,7 @@ let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${
 let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
 
 // getData(movieDetails).then((result) => console.log(result));
+console.log(await getMovieCastById("1311844", APIKEY));
 
 await renderData(
   getData,

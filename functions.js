@@ -94,6 +94,13 @@ export async function getMovieDataById(movieId, APIKEY) {
   return movieData;
 }
 
+export async function getMovieCastById(movieId, APIKEY) {
+  let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${APIKEY}`;
+  let moviePromise = await fetch(movieEndpoint);
+  let movieData = await moviePromise.json();
+  return movieData;
+}
+
 export function convertMinutesToHours(minutes) {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
@@ -106,4 +113,40 @@ export function formatRevenue(revenue) {
     currency: "USD",
   });
   return formatted;
+}
+
+export function createSecondCastObj() {
+  const secondSwiper = new Swiper(".second-swiper", {
+    // loop: true,
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+    rewind: true,
+    watchOverflow: true,
+    spaceBetween: 20,
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+
+    breakpoints: {
+      1536: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+      },
+      1000: {
+        slidesPerView: 5,
+        slidesPerGroup: 5,
+      },
+      440: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+      },
+
+      0: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+      },
+    },
+  });
 }

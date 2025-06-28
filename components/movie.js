@@ -1,4 +1,8 @@
-import { convertMinutesToHours, formatRevenue } from "../functions.js";
+import {
+  convertMinutesToHours,
+  formatRevenue,
+  createSecondCastObj,
+} from "../functions.js";
 export function createMovie(
   movieBanner,
   moviePoster,
@@ -139,56 +143,6 @@ export function createMovie(
               class="second-swiper w-120 overflow-hidden relative pb-10 max-2xl:pb-20 max-2xl:w-full"
             >
               <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <div class="cast-details flex flex-col items-center">
-                    <img
-                      src="man-5.jpg"
-                      class="w-25 h-25 rounded-full"
-                      alt="cast photo"
-                    />
-                    <h2 class="text-gray-400 text-xl">Paul Kasey</h2>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="cast-details flex flex-col items-center">
-                    <img
-                      src="man-5.jpg"
-                      class="w-25 h-25 rounded-full"
-                      alt="cast photo"
-                    />
-                    <h2 class="text-gray-400 text-xl">Paul Kasey</h2>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="cast-details flex flex-col items-center">
-                    <img
-                      src="man-5.jpg"
-                      class="w-25 h-25 rounded-full"
-                      alt="cast photo"
-                    />
-                    <h2 class="text-gray-400 text-xl">Paul Kasey</h2>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="cast-details flex flex-col items-center">
-                    <img
-                      src="man-5.jpg"
-                      class="w-25 h-25 rounded-full"
-                      alt="cast photo"
-                    />
-                    <h2 class="text-gray-400 text-xl">Paul Kasey</h2>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="cast-details flex flex-col items-center">
-                    <img
-                      src="man-5.jpg"
-                      class="w-25 h-25 rounded-full"
-                      alt="cast photo"
-                    />
-                    <h2 class="text-gray-400 text-xl">Paul Kasey</h2>
-                  </div>
-                </div>
               </div>
 
               <!-- Add Navigation -->
@@ -419,6 +373,8 @@ export function createMovie(
     `;
 
   document.body.insertAdjacentHTML("beforeend", movieHTML);
+
+  createSecondCastObj();
 }
 
 export function createGenres(movieGenres, genresParent) {
@@ -430,5 +386,28 @@ export function createGenres(movieGenres, genresParent) {
         </div>
         `;
     genresParent.insertAdjacentHTML("beforeend", genreHTML);
+  });
+}
+
+export function createCast(movieCast, imagePath, castParent) {
+  let defaultPhoto =
+    "https://i.pinimg.com/736x/e6/e4/df/e6e4df26ba752161b9fc6a17321fa286.jpg";
+  movieCast.cast.forEach((cast) => {
+    console.log(cast);
+    const { name, profile_path } = cast;
+    let castHTML = `
+      <div class="swiper-slide">
+          <div class="cast-details flex flex-col items-center text-center">
+          <img
+              src="${profile_path ? imagePath + profile_path : defaultPhoto}"
+              class="w-25 h-25 rounded-full object-cover"
+              alt="cast photo"
+          />
+          <h2 class="text-gray-400 text-xl truncate w-full">${name}</h2>
+          </div>
+      </div>
+      `;
+
+    castParent.insertAdjacentHTML("beforeend", castHTML);
   });
 }

@@ -38,36 +38,36 @@ document.querySelectorAll(".swiper").forEach((el) => {
   });
 });
 
-const secondSwiper = new Swiper(".second-swiper", {
-  // loop: true,
-  slidesPerView: 4,
-  slidesPerGroup: 4,
-  rewind: true,
-  watchOverflow: true,
-  spaceBetween: 20,
+// const secondSwiper = new Swiper(".second-swiper", {
+//   // loop: true,
+//   slidesPerView: 4,
+//   slidesPerGroup: 4,
+//   rewind: true,
+//   watchOverflow: true,
+//   spaceBetween: 20,
 
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
+//   navigation: {
+//     nextEl: ".swiper-button-next",
+//     prevEl: ".swiper-button-prev",
+//   },
 
-  breakpoints: {
-    1536: {
-      slidesPerView: 4,
-      slidesPerGroup: 4,
-    },
-    1000: {
-      slidesPerView: 5,
-      slidesPerGroup: 5,
-    },
-    440: {
-      slidesPerView: 3,
-      slidesPerGroup: 3,
-    },
+//   breakpoints: {
+//     1536: {
+//       slidesPerView: 4,
+//       slidesPerGroup: 4,
+//     },
+//     1000: {
+//       slidesPerView: 5,
+//       slidesPerGroup: 5,
+//     },
+//     440: {
+//       slidesPerView: 3,
+//       slidesPerGroup: 3,
+//     },
 
-    0: {
-      slidesPerView: 2,
-      slidesPerGroup: 2,
-    },
-  },
-});
+//     0: {
+//       slidesPerView: 2,
+//       slidesPerGroup: 2,
+//     },
+//   },
+// });
