@@ -24,6 +24,12 @@
 .swiper-button-next,
 .swiper-button-prev {
   color: var(--main-color);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.swiper-slide {
+  user-select: none;
 }
 
 .swiper-pagination-bullet-active {
@@ -32,6 +38,11 @@
 
 .swiper-pagination-bullet {
   background-color: var(--main-color);
+}
+
+.second-swiper .swiper-button-next::after,
+.second-swiper .swiper-button-prev::after {
+  font-size: 30px;
 }
 
 .fade-in {
