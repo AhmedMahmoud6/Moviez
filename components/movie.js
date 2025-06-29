@@ -3,6 +3,13 @@ import {
   formatRevenue,
   createSecondCastObj,
 } from "../functions.js";
+
+let movieBannerDefault =
+  "https://r4.wallpaperflare.com/wallpaper/644/305/118/pattern-black-gradient-texture-wallpaper-1be65c2d03e1bf994574abb9dd4c6c70.jpg";
+
+let moviePosterDefault =
+  "https://r4.wallpaperflare.com/wallpaper/533/463/577/abstract-texture-simple-simple-background-wallpaper-b21162b0fd962e4bda8802c55018d952.jpg";
+
 export function createMovie(
   movieBanner,
   moviePoster,
@@ -16,12 +23,11 @@ export function createMovie(
   movieQuote,
   movieOverview
 ) {
-  document.querySelector("section").remove();
   let movieHTML = `
         <section class="movie md:pl-[280px]">
       <div class="movie-details-container relative">
         <img
-          src="${imagePath}${movieBanner}"
+          src="${movieBanner ? imagePath + movieBanner : movieBannerDefault}"
           class="w-full h-full absolute top-0 opacity-30 object-cover"
           alt="movie banner"
         />
@@ -30,7 +36,9 @@ export function createMovie(
         >
           <div class="movie-poster">
             <img
-              src="${imagePath}${moviePoster}"
+              src="${
+                moviePoster ? imagePath + moviePoster : moviePosterDefault
+              }"
               class="w-80 h-full max-w-full h-auto rounded-xl"
               alt="movie poster"
             />
@@ -39,7 +47,7 @@ export function createMovie(
             class="movie-details flex flex-col max-[1430px]:items-center justify-center gap-5"
           >
             <h1
-              class="text-5xl max-xl:text-4xl text-white text-center font-bold"
+              class="text-5xl max-xl:text-4xl text-white  font-bold"
             >
               ${movieName}
             </h1>
@@ -231,7 +239,7 @@ export function createSimillar(movieSimillar, imagePath, simillarParent) {
         id="${id}"
         >
         <img
-            src="${imagePath}${poster_path}"
+            src="${poster_path ? imagePath + poster_path : moviePosterDefault}"
             class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3]"
             alt="movie photo"
         />

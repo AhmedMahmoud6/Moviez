@@ -34,6 +34,8 @@ let nowPlayingSwiperWrapper = document.querySelector(
   ".now-playing .swiper-wrapper"
 );
 let upcomingSwiperWrapper = document.querySelector(".upcoming .swiper-wrapper");
+let movieSkeleton = document.querySelector(".movie-skeleton");
+let failedLoading = document.querySelector(".failed-loading");
 
 let imagePath = "https://image.tmdb.org/t/p/original";
 export let defaultPhoto =
@@ -80,76 +82,90 @@ document.addEventListener("click", async (e) => {
   }
 
   if (e.target.closest(".open-movie")) {
-    let clickedMovie = e.target.closest(".open-movie");
-    let clickedMovieDetails = await getCustomData(
-      `https://api.themoviedb.org/3/movie`,
-      clickedMovie.id,
-      "",
-      APIKEY
-    );
-    let clickedMovieCast = await getCustomData(
-      `https://api.themoviedb.org/3/movie`,
-      clickedMovie.id,
-      "/credits",
-      APIKEY
-    );
-    let clickedMovieSimillar = await getCustomData(
-      `https://api.themoviedb.org/3/movie`,
-      clickedMovie.id,
-      "/similar",
-      APIKEY
-    );
-    let clickedMovieRecommendations = await getCustomData(
-      `https://api.themoviedb.org/3/movie`,
-      clickedMovie.id,
-      "/recommendations",
-      APIKEY
-    );
+    if (document.querySelector("section:not(.movie-skeleton)"))
+      document.querySelector("section:not(.movie-skeleton)").remove();
+    movieSkeleton.classList.remove("hidden");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
 
-    const {
-      title,
-      id: movieId,
-      backdrop_path: movieBanner,
-      poster_path: moviePoster,
-      vote_average: movieRate,
-      tagline: quote,
-      overview: movieDesc,
-      spoken_languages: movieLang,
-      runtime: movieDuration,
-      revenue,
-      release_date: movieDate,
-      genres,
-    } = clickedMovieDetails;
-    createMovie(
-      movieBanner,
-      moviePoster,
-      imagePath,
-      title,
-      movieRate,
-      movieDuration,
-      revenue,
-      movieDate,
-      movieLang,
-      quote,
-      movieDesc
-    );
-    createGenres(genres, document.querySelector(".movie-genre"));
-    createCast(
-      clickedMovieCast,
-      imagePath,
-      document.querySelector(".cast .swiper-wrapper"),
-      defaultPhoto
-    );
-    createSimillar(
-      clickedMovieSimillar,
-      imagePath,
-      document.querySelector(".simillar .swiper-wrapper")
-    );
-    createSimillar(
-      clickedMovieRecommendations,
-      imagePath,
-      document.querySelector(".recommendations .swiper-wrapper")
-    );
+    try {
+      let clickedMovie = e.target.closest(".open-movie");
+      let clickedMovieDetails = await getCustomData(
+        `https://api.themoviedb.org/3/movie`,
+        clickedMovie.id,
+        "",
+        APIKEY
+      );
+      let clickedMovieCast = await getCustomData(
+        `https://api.themoviedb.org/3/movie`,
+        clickedMovie.id,
+        "/credits",
+        APIKEY
+      );
+      let clickedMovieSimillar = await getCustomData(
+        `https://api.themoviedb.org/3/movie`,
+        clickedMovie.id,
+        "/similar",
+        APIKEY
+      );
+      let clickedMovieRecommendations = await getCustomData(
+        `https://api.themoviedb.org/3/movie`,
+        clickedMovie.id,
+        "/recommendations",
+        APIKEY
+      );
+
+      movieSkeleton.classList.add("hidden");
+      const {
+        title,
+        id: movieId,
+        backdrop_path: movieBanner,
+        poster_path: moviePoster,
+        vote_average: movieRate,
+        tagline: quote,
+        overview: movieDesc,
+        spoken_languages: movieLang,
+        runtime: movieDuration,
+        revenue,
+        release_date: movieDate,
+        genres,
+      } = clickedMovieDetails;
+      createMovie(
+        movieBanner,
+        moviePoster,
+        imagePath,
+        title,
+        movieRate,
+        movieDuration,
+        revenue,
+        movieDate,
+        movieLang,
+        quote,
+        movieDesc
+      );
+      createGenres(genres, document.querySelector(".movie-genre"));
+      createCast(
+        clickedMovieCast,
+        imagePath,
+        document.querySelector(".cast .swiper-wrapper"),
+        defaultPhoto
+      );
+      createSimillar(
+        clickedMovieSimillar,
+        imagePath,
+        document.querySelector(".simillar .swiper-wrapper")
+      );
+      createSimillar(
+        clickedMovieRecommendations,
+        imagePath,
+        document.querySelector(".recommendations .swiper-wrapper")
+      );
+    } catch (error) {
+      movieSkeleton.classList.add("hidden");
+      failedLoading.classList.remove("hidden");
+    }
   }
 });
 
