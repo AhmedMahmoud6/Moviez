@@ -50,21 +50,7 @@ export function createMovie(
             </h1>
             <div class="movie-rating-parent flex items-center gap-10">
               <div class="stars flex gap-2">
-                <i
-                  class="fa-solid fa-star text-xl max-[500px]:text-base text-yellow-400"
-                ></i>
-                <i
-                  class="fa-solid fa-star text-xl max-[500px]:text-base text-yellow-400"
-                ></i>
-                <i
-                  class="fa-solid fa-star text-xl max-[500px]:text-base text-yellow-400"
-                ></i>
-                <i
-                  class="fa-solid fa-star text-xl max-[500px]:text-base text-gray-500"
-                ></i>
-                <i
-                  class="fa-solid fa-star text-xl max-[500px]:text-base text-gray-500"
-                ></i>
+
               </div>
               <div class="movie-rating">
                 <h1 class="text-gray-400 text-xl">
@@ -190,7 +176,7 @@ export function createMovie(
     `;
 
   document.body.insertAdjacentHTML("beforeend", movieHTML);
-
+  createMovieStars(movieRating, document.querySelector(".stars"));
   createSecondCastObj();
 }
 
@@ -253,4 +239,33 @@ export function createSimillar(movieSimillar, imagePath, simillarParent) {
 
     simillarParent.insertAdjacentHTML("beforeend", simillarHTML);
   });
+}
+
+function createMovieStars(rate, starsContainer) {
+  let starsGrayHTML = `<i class="fa-solid fa-star text-xl max-[500px]:text-base text-gray-500"></i>`;
+  let starsYellowHTML = `<i class="fa-solid fa-star text-xl max-[500px]:text-base text-yellow-400"></i>`;
+  let yellowStars = 0;
+
+  if (rate >= 0 && rate < 1) {
+    yellowStars = 0;
+  } else if (rate >= 1 && rate < 3) {
+    yellowStars = 1;
+  } else if (rate >= 3 && rate < 6) {
+    yellowStars = 2;
+  } else if (rate >= 6 && rate < 8) {
+    yellowStars = 3;
+  } else if (rate >= 8 && rate < 10) {
+    yellowStars = 4;
+  } else if (rate === 10) {
+    yellowStars = 5;
+  }
+
+  for (let i = 0; i < 5; i++) {
+    if (yellowStars !== 0) {
+      starsContainer.insertAdjacentHTML("beforeend", starsYellowHTML);
+      yellowStars -= 1;
+    } else {
+      starsContainer.insertAdjacentHTML("beforeend", starsGrayHTML);
+    }
+  }
 }
