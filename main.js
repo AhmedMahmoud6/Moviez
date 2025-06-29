@@ -3,8 +3,7 @@ import {
   getCustomData,
   closeMenu,
   updateActiveSwitch,
-  renderData,
-  renderTrending,
+  getDiscoveryData,
 } from "./functions.js";
 
 import {
@@ -13,6 +12,11 @@ import {
   createCast,
   createSimillar,
 } from "./components/movie.js";
+
+import { renderDiscover } from "./components/discover.js";
+import { discoverSwiperObj } from "./swiper.js";
+renderDiscover();
+discoverSwiperObj();
 
 let mobileMenuBtn = document.querySelector(".mobile-menu-button");
 let mobileMenu = document.querySelector(".side-bar");
@@ -34,12 +38,26 @@ let nowPlayingSwiperWrapper = document.querySelector(
   ".now-playing .swiper-wrapper"
 );
 let upcomingSwiperWrapper = document.querySelector(".upcoming .swiper-wrapper");
+
 let movieSkeleton = document.querySelector(".movie-skeleton");
 let failedLoading = document.querySelector(".failed-loading");
 
 let imagePath = "https://image.tmdb.org/t/p/original";
 export let defaultPhoto =
   "https://i.pinimg.com/736x/e6/e4/df/e6e4df26ba752161b9fc6a17321fa286.jpg";
+
+const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
+
+let getPopular = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=en-US`;
+let topRated = `https://api.themoviedb.org/3/movie/top_rated?api_key=${APIKEY}&language=en-US&page=1`;
+let nowPlaying = `https://api.themoviedb.org/3/movie/now_playing?api_key=${APIKEY}&language=en-US&page=1`;
+let searchQuery = "";
+let searchMovies = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${searchQuery}`;
+let selectedGenre = 0;
+let genreMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&with_genres=${selectedGenre}`;
+let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&language=en-US`;
+let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${APIKEY}`;
+let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
 
 mobileMenuBtn.addEventListener("click", () => {
   // open menu
@@ -79,6 +97,28 @@ document.addEventListener("click", async (e) => {
       (type) => selectedDiv.classList.contains(type)
     );
     updateActiveSwitch(allSwitches, selectedSwitch);
+
+    // rerender the discover page
+    if (selectedSwitch === "discover") {
+      renderDiscover();
+      discoverSwiperObj();
+      await getDiscoveryData(
+        getData,
+        getPopular,
+        imagePath,
+        document.querySelector(".most-popular .swiper-wrapper"),
+        upcomingMovie,
+        document.querySelector(".upcoming .swiper-wrapper"),
+        topRated,
+        document.querySelector(".top-rated .swiper-wrapper"),
+        nowPlaying,
+        document.querySelector(".now-playing .swiper-wrapper"),
+        trendingMovie,
+        document.querySelector(".trending-movie"),
+        trendingTv,
+        document.querySelector(".trending-tv")
+      );
+    }
   }
 
   if (e.target.closest(".open-movie")) {
@@ -178,57 +218,22 @@ window.addEventListener("resize", () => {
   }
 });
 
-window.addEventListener("scroll", () => {
-  const el = trendingParent.querySelector(".trending-content");
-  if (!el.classList.contains("sticky")) {
-    el.classList.add("sticky", "top-[50px]");
-  }
-});
-
-const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
-
-let getPopular = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=en-US`;
-let topRated = `https://api.themoviedb.org/3/movie/top_rated?api_key=${APIKEY}&language=en-US&page=1`;
-let nowPlaying = `https://api.themoviedb.org/3/movie/now_playing?api_key=${APIKEY}&language=en-US&page=1`;
-let searchQuery = "";
-let searchMovies = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${searchQuery}`;
-let selectedGenre = 0;
-let genreMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&with_genres=${selectedGenre}`;
-let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&language=en-US`;
-let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${APIKEY}`;
-let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
-
 // getData(movieDetails).then((result) => console.log(result));
 // console.log(await getMovieCastById("1311844", APIKEY));
 
-await renderData(
+await getDiscoveryData(
   getData,
   getPopular,
   imagePath,
   mostPopularSwiperWrapper,
-  document.querySelector(".most-popular")
-);
-await renderData(
-  getData,
   upcomingMovie,
-  imagePath,
   upcomingSwiperWrapper,
-  document.querySelector(".upcoming")
-);
-await renderData(
-  getData,
   topRated,
-  imagePath,
   topRatedSwiperWrapper,
-  document.querySelector(".top-rated")
-);
-await renderData(
-  getData,
   nowPlaying,
-  imagePath,
   nowPlayingSwiperWrapper,
-  document.querySelector(".now-playing")
+  trendingMovie,
+  trendingMovieDiv,
+  trendingTv,
+  trendingTvDiv
 );
-
-await renderTrending(getData, trendingMovie, imagePath, trendingMovieDiv);
-await renderTrending(getData, trendingTv, imagePath, trendingTvDiv, false);

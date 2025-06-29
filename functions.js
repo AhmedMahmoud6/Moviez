@@ -123,38 +123,51 @@ export function formatRevenue(revenue) {
   return formatted;
 }
 
-export function createSecondCastObj() {
-  const secondSwiper = new Swiper(".second-swiper", {
-    // loop: true,
-    slidesPerView: 4,
-    slidesPerGroup: 4,
-    rewind: true,
-    watchOverflow: true,
-    spaceBetween: 20,
+export async function getDiscoveryData(
+  getData,
+  getPopular,
+  imagePath,
+  mostPopularSwiperWrapper,
+  upcomingMovie,
+  upcomingSwiperWrapper,
+  topRated,
+  topRatedSwiperWrapper,
+  nowPlaying,
+  nowPlayingSwiperWrapper,
+  trendingMovie,
+  trendingMovieDiv,
+  trendingTv,
+  trendingTvDiv
+) {
+  await renderData(
+    getData,
+    getPopular,
+    imagePath,
+    mostPopularSwiperWrapper,
+    document.querySelector(".most-popular")
+  );
+  await renderData(
+    getData,
+    upcomingMovie,
+    imagePath,
+    upcomingSwiperWrapper,
+    document.querySelector(".upcoming")
+  );
+  await renderData(
+    getData,
+    topRated,
+    imagePath,
+    topRatedSwiperWrapper,
+    document.querySelector(".top-rated")
+  );
+  await renderData(
+    getData,
+    nowPlaying,
+    imagePath,
+    nowPlayingSwiperWrapper,
+    document.querySelector(".now-playing")
+  );
 
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-
-    breakpoints: {
-      1536: {
-        slidesPerView: 4,
-        slidesPerGroup: 4,
-      },
-      1000: {
-        slidesPerView: 5,
-        slidesPerGroup: 5,
-      },
-      440: {
-        slidesPerView: 3,
-        slidesPerGroup: 3,
-      },
-
-      0: {
-        slidesPerView: 2,
-        slidesPerGroup: 2,
-      },
-    },
-  });
+  await renderTrending(getData, trendingMovie, imagePath, trendingMovieDiv);
+  await renderTrending(getData, trendingTv, imagePath, trendingTvDiv, false);
 }

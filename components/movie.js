@@ -1,8 +1,5 @@
-import {
-  convertMinutesToHours,
-  formatRevenue,
-  createSecondCastObj,
-} from "../functions.js";
+import { convertMinutesToHours, formatRevenue } from "../functions.js";
+import { createSecondCastObj } from "../swiper.js";
 
 let movieBannerDefault =
   "https://r4.wallpaperflare.com/wallpaper/644/305/118/pattern-black-gradient-texture-wallpaper-1be65c2d03e1bf994574abb9dd4c6c70.jpg";

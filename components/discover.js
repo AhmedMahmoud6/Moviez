@@ -1,112 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Moviez</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body class="overflow-x-hidden bg-[#131417] max-md:bg-[#111215]">
-    <nav
-      class="bg-[#131417] max-md:bg-[#111215] py-8 max-md:py-4 md:pl-70 max-md:px-3 pr-2 flex gap-10 max-md:gap-4 items-center transform translate-x-0 transition-all duration-300"
-    >
-      <div
-        class="mobile-menu-button bg-[#1b1c22] hover:bg-[#444857] min-w-12 min-h-12 rounded-full flex justify-center items-center transition-all duration-300 cursor-pointer hidden max-md:flex"
-      >
-        <i class="fa-solid fa-bars text-gray-400"></i>
-      </div>
-      <div
-        class="search-container bg-[#191c21] flex items-center rounded-2xl min-w-50 xl:w-150 w-full"
-      >
-        <input
-          type="text"
-          class="placeholder:text-gray-400 w-full h-full p-2 px-4 outline-none text-white"
-          placeholder="Search"
-        />
-        <i class="fa-solid fa-magnifying-glass text-gray-400 px-4"></i>
-      </div>
+export function renderDiscover() {
+  if (document.querySelector("section:not(.movie-skeleton)"))
+    document.querySelector("section:not(.movie-skeleton)").remove();
 
-      <div class="right-side flex gap-10 xl:flex hidden">
-        <ul class="flex items-center gap-10 text-gray-500 text-xl">
-          <li
-            class="main-switch discover discover-nav cursor-pointer hover:text-white navbar-active"
-          >
-            Discover
-          </li>
-          <li
-            class="main-switch movies movies-nav cursor-pointer hover:text-white"
-          >
-            Movies
-          </li>
-          <li class="main-switch tv tv-nav cursor-pointer hover:text-white">
-            TV
-          </li>
-          <li
-            class="main-switch people people-nav cursor-pointer hover:text-white"
-          >
-            People
-          </li>
-          <li
-            class="main-switch about about-nav cursor-pointer hover:text-white"
-          >
-            About
-          </li>
-        </ul>
-        <div class="profile-pic w-10 h-10 ring-3 rounded-full ring-green-400">
-          <img
-            src="man-5.jpg"
-            class="w-full h-full rounded-full ring-1 ring-black"
-            alt="profile pic"
-          />
-        </div>
-      </div>
-    </nav>
-
-    <aside
-      class="side-bar w-70 h-screen fixed top-0 left-0 bg-[#131417] py-5 transition-all duration-300 transform max-md:-translate-x-full z-10"
-    >
-      <div class="logo w-40 h-12 flex justify-center w-full mb-10">
-        <img src="logo-light.svg" class="w-full h-full" alt="Moviez Logo" />
-      </div>
-      <ul class="flex flex-col gap-3 text-gray-500 text-xl">
-        <li
-          class="main-switch discover discover-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] navbar-active menu-active relative"
-        >
-          Discover
-        </li>
-        <li
-          class="main-switch movies movies-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
-        >
-          Movies
-        </li>
-        <li
-          class="main-switch tv tv-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
-        >
-          TV
-        </li>
-        <li
-          class="main-switch people people-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
-        >
-          People
-        </li>
-        <li
-          class="main-switch about about-menu cursor-pointer px-18 py-1 hover:bg-[#1b1c22] relative"
-        >
-          About
-        </li>
-      </ul>
-    </aside>
-
-    <!-- <section
+  let discoverHTML = `
+    <section
       class="discover-container flex max-xl:flex-wrap md:pl-[280px] transition-all duration-300 transform translate-x-0"
     >
       <section class="discover-content w-9/12 max-xl:w-full bg-[#1b1c22] p-8">
@@ -165,10 +62,10 @@
             </div>
             <div class="swiper relative pb-10">
               <div class="swiper-wrapper"></div>
-              Add Pagination
+              <!-- Add Pagination -->
               <div class="swiper-pagination"></div>
 
-              Add Navigation
+              <!-- Add Navigation -->
               <div class="swiper-button-next"></div>
               <div class="swiper-button-prev"></div>
             </div>
@@ -225,10 +122,10 @@
             </div>
             <div class="swiper relative pb-10">
               <div class="swiper-wrapper"></div>
-              Add Pagination
+              <!-- Add Pagination -->
               <div class="swiper-pagination"></div>
 
-              Add Navigation
+              <!-- Add Navigation -->
               <div class="swiper-button-next"></div>
               <div class="swiper-button-prev"></div>
             </div>
@@ -287,10 +184,10 @@
             </div>
             <div class="swiper relative pb-10">
               <div class="swiper-wrapper"></div>
-              Add Pagination
+              <!-- Add Pagination -->
               <div class="swiper-pagination"></div>
 
-              Add Navigation
+              <!-- Add Navigation -->
               <div class="swiper-button-next"></div>
               <div class="swiper-button-prev"></div>
             </div>
@@ -347,10 +244,10 @@
             </div>
             <div class="swiper relative pb-10">
               <div class="swiper-wrapper"></div>
-              Add Pagination
+              <!-- Add Pagination -->
               <div class="swiper-pagination"></div>
 
-              Add Navigation
+              <!-- Add Navigation -->
               <div class="swiper-button-next"></div>
               <div class="swiper-button-prev"></div>
             </div>
@@ -359,7 +256,7 @@
       </section>
       <section class="trending bg-[#1a1a1f] flex-1 flex-shrink-0 p-4 py-8">
         <div
-          class="trending-content max-[450px]:!min-w-[0px] max-xl:min-w-[300px] max-[450px]:flex-col max-xl:flex max-xl:justify-center max-xl:gap-10 max-xl:h-fit"
+          class="trending-content max-[450px]:!min-w-[0px] max-xl:min-w-[300px] max-[450px]:flex-col max-xl:flex max-xl:justify-center max-xl:gap-10 max-xl:h-fit sticky top-[50px]"
         >
           <div
             class="trending-movie open-movie mb-8 max-xl:basis-1/2 cursor-pointer"
@@ -401,78 +298,8 @@
           </div>
         </div>
       </section>
-    </section> -->
-
-    <section class="movie-skeleton animate-pulse hidden md:pl-[280px]">
-      <div class="movie-details-container relative">
-        <div
-          class="w-full h-full absolute top-0 opacity-30 object-cover bg-[#2a2d37]"
-        ></div>
-        <div
-          class="movie-details-parent z-10 relative h-full flex max-[1430px]:flex-col max-[1430px]:items-center gap-10 p-20 max-[1430px]:px-5"
-        >
-          <div class="movie-poster max-[1430px]:h-100">
-            <div
-              class="w-80 h-full max-w-full h-auto rounded-xl bg-[#2a2d37]"
-            ></div>
-          </div>
-          <div
-            class="movie-details flex flex-col max-[1430px]:items-center justify-center gap-5 w-full max-[1430px]:w-8/12"
-          >
-            <div class="w-full h-8 bg-[#2a2d37]"></div>
-            <div class="movie-rating-parent w-8/12 h-8 bg-[#2a2d37]"></div>
-            <div class="w-10/12 h-8 bg-[#2a2d37]"></div>
-            <div class="movie-info w-6/12 h-8 bg-[#2a2d37]"></div>
-            <div class="movie-quote w-10/12 h-8 bg-[#2a2d37]"></div>
-            <div class="movie-buttons flex gap-6 max-[500px]:flex-col">
-              <button
-                class="bg-[#2a2d37] p-3 px-12 max-[1430px]:px-6 cursor-pointer"
-              ></button>
-              <button
-                class="bg-[#2a2d37] p-3 px-12 max-[1430px]:px-6 cursor-pointer"
-              ></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="movie-desc bg-[#020303] p-20 max-lg:px-4">
-        <div class="description mb-14">
-          <h1 class="uppercase text-white text-4xl font-bold mb-8">
-            description
-          </h1>
-          <p class="w-150 max-lg:w-full h-8 bg-[#2a2d37]"></p>
-          <p class="w-120 max-lg:w-10/12 h-8 bg-[#2a2d37] mt-5"></p>
-        </div>
-        <div class="cast-and-simillar flex justify-between max-2xl:flex-col">
-          <div class="cast w-150 mb-14">
-            <h2 class="uppercase text-white text-2xl mb-5">cast</h2>
-            <div class="w-full h-10 bg-[#2a2d37]"></div>
-          </div>
-          <div class="simillar w-150 mb-14">
-            <h2 class="uppercase text-white text-2xl mb-5">simillar</h2>
-            <div class="w-full h-10 bg-[#2a2d37]"></div>
-          </div>
-        </div>
-
-        <div class="recommendations">
-          <h2 class="uppercase text-white text-2xl mb-5">recommendations</h2>
-          <div class="w-full h-80 bg-[#2a2d37]"></div>
-        </div>
-      </div>
     </section>
+    `;
 
-    <div
-      class="failed-loading md:pl-[280px] text-center flex flex-col gap-6 items-center py-20 hidden"
-    >
-      <h1 class="text-white font-bold text-3xl">Something Went Wrong</h1>
-      <p class="text-gray-400 text-xl">Try refreshing the page</p>
-      <button class="uppercase text-white text-xl p-3 px-8 bg-green-400">
-        refresh
-      </button>
-    </div>
-
-    <script type="module" src="main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script type="module" src="swiper.js"></script>
-  </body>
-</html>
+  document.body.insertAdjacentHTML("beforeend", discoverHTML);
+}
