@@ -7,11 +7,12 @@ export function createCastProfile(
   birthday,
   birthPlace,
   castName,
-  biography
+  biography,
+  id
 ) {
   let castHTML = `
     <section class="cast-profile md:pl-[280px] py-10 px-4">
-      <div class="profile flex gap-10 items-center max-lg:flex-col mb-10">
+      <div class="profile flex gap-10 items-start max-lg:flex-col mb-10">
         <div
           class="profile-card bg-[#2c303a] flex flex-col flex-shrink-0 gap-4 w-80 p-8 rounded-xl max-lg:flex-row max-lg:w-full max-[500px]:!flex-col"
         >
@@ -71,11 +72,13 @@ export function createCastProfile(
         <div class="known-categories flex gap-6 text-xl">
           <div
             class="known-category known-movies text-gray-400 navbar-active p-2 px-6 known-for-active hover:bg-green-300/50 hover:text-white transition-all duration-200 cursor-pointer"
+            id="${id}"
           >
             Movies
           </div>
           <div
             class="known-category known-tv text-gray-400 p-2 px-6 hover:bg-green-300/50 hover:text-white transition-all duration-200 cursor-pointer"
+            id="${id}"
           >
             TV Show
           </div>

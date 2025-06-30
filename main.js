@@ -233,6 +233,7 @@ document.addEventListener("click", async (e) => {
       birthday,
       biography,
       place_of_birth,
+      id,
     } = getCastProfile;
 
     scrollToTop();
@@ -246,7 +247,8 @@ document.addEventListener("click", async (e) => {
       birthday,
       place_of_birth,
       name,
-      biography
+      biography,
+      id
     );
     createKnownForMovie(
       getCastKnownFor.cast,
@@ -254,6 +256,31 @@ document.addEventListener("click", async (e) => {
       document.querySelector(".known-for-posters"),
       moviePosterDefault
     );
+  }
+
+  if (e.target.closest(".known-category")) {
+    document.querySelector(".known-for-posters").innerHTML = "";
+    let clickedCategory = e.target.closest(".known-category");
+    if (clickedCategory.classList.contains("known-movies")) {
+      let getCastKnownForMovie = await getCustomData(
+        "https://api.themoviedb.org/3/person",
+        clickedCategory.id,
+        "/movie_credits",
+        APIKEY
+      );
+
+      createKnownForMovie(
+        getCastKnownForMovie.cast,
+        imagePath,
+        document.querySelector(".known-for-posters"),
+        moviePosterDefault
+      );
+
+      document
+        .querySelector(".known-for-details")
+        .scrollIntoView({ behavior: "smooth" });
+    } else if (clickedCategory.classList.contains("known-tv"))
+      console.log("tv sir");
   }
 });
 
