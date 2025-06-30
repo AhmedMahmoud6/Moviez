@@ -201,12 +201,13 @@ export async function createSeasons(tvId, totalSeasons, seasonsParent, APIKEY) {
     );
     allSeasons.push(getSeason);
   }
+  console.log(allSeasons);
 
   allSeasons.forEach((season) => {
-    const { name, overview, air_date } = season;
+    const { name, overview, air_date, season_number } = season;
     let seasonHTML = `
           <div class="swiper-slide">
-              <div class="season w-full p-8 bg-[#2c303a] flex items-center gap-10 rounded-xl max-h-[400px]">
+              <div class="season w-full p-8 bg-[#2c303a] flex items-center gap-10 rounded-xl max-h-[400px] cursor-pointer" id="${tvId}" data-season="${season_number}">
                   <div class="season-details w-full flex flex-col gap-1 pr-4">
                       <h1 class="text-white text-xl">${
                         name ? name : "No Name"

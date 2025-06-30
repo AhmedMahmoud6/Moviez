@@ -53,6 +53,10 @@
   animation: fadeIn 1s ease-in forwards;
 }
 
+img[src=""] {
+  display: none;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

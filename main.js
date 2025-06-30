@@ -24,6 +24,7 @@ import { createCastProfile } from "./components/cast.js";
 
 import { renderDiscover } from "./components/discover.js";
 import { createThirdSeasonsObj, discoverSwiperObj } from "./swiper.js";
+import { createSeasonDetails } from "./components/season.js";
 renderDiscover();
 discoverSwiperObj();
 
@@ -408,6 +409,121 @@ document.addEventListener("click", async (e) => {
     }
 
     document.querySelector(".known-for-posters").classList.remove("min-h-500");
+  }
+
+  if (e.target.closest(".season")) {
+    let clickedSeason = e.target.closest(".season");
+
+    let getClickedSeasonDetails = await getCustomData(
+      "https://api.themoviedb.org/3/tv",
+      clickedSeason.id,
+      `/season/${clickedSeason.getAttribute("data-season")}`,
+      APIKEY
+    );
+
+    const { name, air_date, poster_path, episodes } = getClickedSeasonDetails;
+    scrollToTop();
+    removeCurrentSection();
+    createSeasonDetails(
+      poster_path,
+      name,
+      air_date,
+      episodes,
+      imagePath,
+      clickedSeason.id
+    );
+  }
+
+  if (e.target.closest(".back-to-tv")) {
+    removeCurrentSection();
+    movieSkeleton.classList.remove("hidden");
+    scrollToTop();
+
+    try {
+      let clickedMovie = e.target.closest(".back-to-tv");
+      let clickedMovieDetails = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "",
+        APIKEY
+      );
+
+      let clickedMovieCast = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "/credits",
+        APIKEY
+      );
+      let clickedMovieSimillar = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "/similar",
+        APIKEY
+      );
+      let clickedMovieRecommendations = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "/recommendations",
+        APIKEY
+      );
+
+      console.log(clickedMovieSimillar);
+      movieSkeleton.classList.add("hidden");
+      const {
+        name,
+        backdrop_path: movieBanner,
+        poster_path: moviePoster,
+        vote_average: movieRate,
+        tagline: quote,
+        overview: movieDesc,
+        spoken_languages: movieLang,
+        episode_run_time: movieDuration,
+        first_air_date: movieDate,
+        genres,
+        number_of_seasons,
+      } = clickedMovieDetails;
+      createTV(
+        movieBanner,
+        moviePoster,
+        imagePath,
+        name,
+        movieRate,
+        movieDuration[0],
+        movieDate,
+        movieLang,
+        quote,
+        movieDesc
+      );
+      createGenres(genres, document.querySelector(".tv-genre"));
+      createCast(
+        clickedMovieCast,
+        imagePath,
+        document.querySelector(".cast .swiper-wrapper"),
+        defaultPhoto
+      );
+
+      createSimillar(
+        clickedMovieSimillar,
+        imagePath,
+        document.querySelector(".simillar .swiper-wrapper")
+      );
+      createSimillar(
+        clickedMovieRecommendations,
+        imagePath,
+        document.querySelector(".recommendations .swiper-wrapper")
+      );
+      await createSeasons(
+        clickedMovie.id,
+        number_of_seasons,
+        document.querySelector(".seasons .swiper-wrapper"),
+        APIKEY
+      );
+      createThirdSeasonsObj();
+    } catch (error) {
+      movieSkeleton.classList.add("hidden");
+      failedLoading.classList.remove("hidden");
+      console.log(error);
+    }
   }
 });
 
