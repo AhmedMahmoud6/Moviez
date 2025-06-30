@@ -75,3 +75,19 @@ export function createSecondCastObj() {
     },
   });
 }
+
+export function createThirdSeasonsObj() {
+  const secondSwiper = new Swiper(".seasons .second-swiper", {
+    // loop: true,
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    rewind: true,
+    watchOverflow: true,
+    spaceBetween: 20,
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+}

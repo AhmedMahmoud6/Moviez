@@ -54,7 +54,6 @@ export async function renderTrending(
 export async function getCustomData(api, movieId = "", custom = "", APIKEY) {
   let requestData = await fetch(`${api}/${movieId}${custom}?api_key=${APIKEY}`);
   let myData = await requestData.json();
-  console.log(myData);
   return myData;
 }
 

@@ -18,10 +18,12 @@ import {
   moviePosterDefault,
 } from "./components/movie.js";
 
+import { createSeasons, createTV } from "./components/tv.js";
+
 import { createCastProfile } from "./components/cast.js";
 
 import { renderDiscover } from "./components/discover.js";
-import { discoverSwiperObj } from "./swiper.js";
+import { createThirdSeasonsObj, discoverSwiperObj } from "./swiper.js";
 renderDiscover();
 discoverSwiperObj();
 
@@ -34,6 +36,7 @@ let discoverContainer = document.querySelector(".discover-container");
 let trendingMovieDiv = document.querySelector(".trending-movie");
 let trendingTvDiv = document.querySelector(".trending-tv");
 let trendingParent = document.querySelector(".trending");
+let refreshButton = document.querySelector(".refresh");
 
 let mostPopularSwiperWrapper = document.querySelector(
   ".most-popular .swiper-wrapper"
@@ -80,6 +83,10 @@ mobileMenuBtn.addEventListener("click", () => {
     closeMenu(mobileMenu, navbar, discoverContainer);
     menuTriggered = false;
   }
+});
+
+refreshButton.addEventListener("click", () => {
+  window.location.reload();
 });
 
 document.addEventListener("click", async (e) => {
@@ -163,7 +170,6 @@ document.addEventListener("click", async (e) => {
       movieSkeleton.classList.add("hidden");
       const {
         title,
-        id: movieId,
         backdrop_path: movieBanner,
         poster_path: moviePoster,
         vote_average: movieRate,
@@ -208,6 +214,98 @@ document.addEventListener("click", async (e) => {
     } catch (error) {
       movieSkeleton.classList.add("hidden");
       failedLoading.classList.remove("hidden");
+    }
+  }
+
+  if (e.target.closest(".open-tv")) {
+    removeCurrentSection();
+    movieSkeleton.classList.remove("hidden");
+    scrollToTop();
+
+    try {
+      let clickedMovie = e.target.closest(".open-tv");
+      let clickedMovieDetails = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "",
+        APIKEY
+      );
+
+      let clickedMovieCast = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "/credits",
+        APIKEY
+      );
+      let clickedMovieSimillar = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "/similar",
+        APIKEY
+      );
+      let clickedMovieRecommendations = await getCustomData(
+        `https://api.themoviedb.org/3/tv`,
+        clickedMovie.id,
+        "/recommendations",
+        APIKEY
+      );
+
+      console.log(clickedMovieSimillar);
+      movieSkeleton.classList.add("hidden");
+      const {
+        name,
+        backdrop_path: movieBanner,
+        poster_path: moviePoster,
+        vote_average: movieRate,
+        tagline: quote,
+        overview: movieDesc,
+        spoken_languages: movieLang,
+        episode_run_time: movieDuration,
+        first_air_date: movieDate,
+        genres,
+        number_of_seasons,
+      } = clickedMovieDetails;
+      createTV(
+        movieBanner,
+        moviePoster,
+        imagePath,
+        name,
+        movieRate,
+        movieDuration[0],
+        movieDate,
+        movieLang,
+        quote,
+        movieDesc
+      );
+      createGenres(genres, document.querySelector(".tv-genre"));
+      createCast(
+        clickedMovieCast,
+        imagePath,
+        document.querySelector(".cast .swiper-wrapper"),
+        defaultPhoto
+      );
+
+      createSimillar(
+        clickedMovieSimillar,
+        imagePath,
+        document.querySelector(".simillar .swiper-wrapper")
+      );
+      createSimillar(
+        clickedMovieRecommendations,
+        imagePath,
+        document.querySelector(".recommendations .swiper-wrapper")
+      );
+      await createSeasons(
+        clickedMovie.id,
+        number_of_seasons,
+        document.querySelector(".seasons .swiper-wrapper"),
+        APIKEY
+      );
+      createThirdSeasonsObj();
+    } catch (error) {
+      movieSkeleton.classList.add("hidden");
+      failedLoading.classList.remove("hidden");
+      console.log(error);
     }
   }
 

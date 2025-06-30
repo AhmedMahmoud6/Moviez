@@ -1,7 +1,7 @@
 import { convertMinutesToHours, formatRevenue } from "../functions.js";
 import { createSecondCastObj } from "../swiper.js";
 
-let movieBannerDefault =
+export let movieBannerDefault =
   "https://r4.wallpaperflare.com/wallpaper/644/305/118/pattern-black-gradient-texture-wallpaper-1be65c2d03e1bf994574abb9dd4c6c70.jpg";
 
 export let moviePosterDefault =
@@ -194,7 +194,6 @@ export function createGenres(movieGenres, genresParent) {
 
 export function createCast(movieCast, imagePath, castParent, defaultPhoto) {
   movieCast.cast.forEach((cast) => {
-    console.log(cast);
     const { name, profile_path, id } = cast;
     let castHTML = `
       <div class="swiper-slide">
@@ -215,11 +214,13 @@ export function createCast(movieCast, imagePath, castParent, defaultPhoto) {
 
 export function createSimillar(movieSimillar, imagePath, simillarParent) {
   movieSimillar.results.forEach((simillar) => {
-    const { title, vote_average, poster_path, id } = simillar;
+    const { title, name, vote_average, poster_path, id } = simillar;
     let simillarHTML = `
     <div class="swiper-slide">
         <div
-        class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+        class="${
+          title ? `displayed-movie open-movie` : `displayed-tv open-tv`
+        } fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
         id="${id}"
         >
         <img
@@ -228,7 +229,7 @@ export function createSimillar(movieSimillar, imagePath, simillarParent) {
             alt="movie photo"
         />
         <h2 class="text-2xl text-white truncate w-full">
-            ${title}
+            ${title ? title : name}
         </h2>
         <div class="rate flex items-center gap-2">
             <i class="fa-solid fa-star text-yellow-300"></i>
@@ -276,7 +277,7 @@ export function createKnownForMovie(
   });
 }
 
-function createMovieStars(rate, starsContainer) {
+export function createMovieStars(rate, starsContainer) {
   let starsGrayHTML = `<i class="fa-solid fa-star text-xl max-[500px]:text-base text-gray-500"></i>`;
   let starsYellowHTML = `<i class="fa-solid fa-star text-xl max-[500px]:text-base text-yellow-400"></i>`;
   let yellowStars = 0;
