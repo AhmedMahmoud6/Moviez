@@ -99,6 +99,12 @@ export function createKnownForTV(
   });
 }
 
+export function yearsOld(birthday) {
+  let birthDate = new Date(birthday);
+  let today = new Date();
+  return today.getFullYear() - birthDate.getFullYear();
+}
+
 export function closeMenu(mobileMenu, navbar, discoverContainer) {
   mobileMenu.classList.replace(
     "max-md:translate-x-0",

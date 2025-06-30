@@ -1,3 +1,5 @@
+import { yearsOld } from "../functions.js";
+
 export function createCastProfile(
   imagePath,
   profile_path,
@@ -44,7 +46,9 @@ export function createCastProfile(
             <div class="birthday">
               <h1 class="text-white text-lg">Birthday</h1>
               <p class="text-gray-400 text-sm">${
-                birthday || "Not specified"
+                birthday
+                  ? `${birthday} (${yearsOld(birthday)} years old)`
+                  : "Not specified"
               }</p>
             </div>
             <div class="birth-place">
