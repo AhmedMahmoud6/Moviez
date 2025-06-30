@@ -194,6 +194,7 @@ export function createGenres(movieGenres, genresParent) {
 
 export function createCast(movieCast, imagePath, castParent, defaultPhoto) {
   movieCast.cast.forEach((cast) => {
+    console.log(cast);
     const { name, profile_path } = cast;
     let castHTML = `
       <div class="swiper-slide">
