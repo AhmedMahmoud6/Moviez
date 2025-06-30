@@ -242,7 +242,7 @@ document.addEventListener("click", async (e) => {
     createCastProfile(
       imagePath,
       profile_path,
-      moviePosterDefault,
+      defaultPhoto,
       knownFor,
       gender,
       birthday,
@@ -260,6 +260,7 @@ document.addEventListener("click", async (e) => {
   }
 
   if (e.target.closest(".known-category")) {
+    document.querySelector(".known-for-posters").classList.add("min-h-500");
     document.querySelector(".known-for-posters").innerHTML = "";
     let clickedCategory = e.target.closest(".known-category");
 
@@ -307,6 +308,8 @@ document.addEventListener("click", async (e) => {
         .querySelector(".known-for-details")
         .scrollIntoView({ behavior: "smooth" });
     }
+
+    document.querySelector(".known-for-posters").classList.remove("min-h-500");
   }
 });
 

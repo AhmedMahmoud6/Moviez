@@ -10,6 +10,13 @@ export function createCastProfile(
   biography,
   id
 ) {
+  const realGender = {
+    0: "Not set",
+    1: "Female",
+    2: "Male",
+    3: "Not specified",
+  };
+
   let castHTML = `
     <section class="cast-profile md:pl-[280px] py-10 px-4">
       <div class="profile flex gap-10 items-start max-lg:flex-col mb-10">
@@ -32,15 +39,19 @@ export function createCastProfile(
             </div>
             <div class="gender">
               <h1 class="text-white text-lg">Gender</h1>
-              <p class="text-gray-400 text-sm">${gender}</p>
+              <p class="text-gray-400 text-sm">${realGender[gender]}</p>
             </div>
             <div class="birthday">
               <h1 class="text-white text-lg">Birthday</h1>
-              <p class="text-gray-400 text-sm">${birthday}</p>
+              <p class="text-gray-400 text-sm">${
+                birthday || "Not specified"
+              }</p>
             </div>
             <div class="birth-place">
               <h1 class="text-white text-lg">Place of Birth</h1>
-              <p class="text-gray-400 text-sm">${birthPlace}</p>
+              <p class="text-gray-400 text-sm">${
+                birthPlace || "Not specified"
+              }</p>
             </div>
           </div>
         </div>
@@ -48,7 +59,7 @@ export function createCastProfile(
           <h1
             class="text-green-400 text-[2.3vw] max-lg:text-[4.3vw] max-md:text-[6.3vw] max-[500px]:!text-[8.3vw] font-bold"
           >
-            ${castName}
+            ${castName || "Unknown"}
           </h1>
           <h2
             class="text-white text-[1.5vw] max-lg:text-[2.5vw] max-md:text-[3.5vw] max-[500px]:!text-[5.5vw]"
@@ -58,7 +69,7 @@ export function createCastProfile(
           <p
             class="text-gray-400 text-[1.3vw] max-lg:text-[2vw] max-md:text-[3vw] max-[500px]:!text-[5vw] w-11/12"
           >
-          ${biography}
+          ${biography || "No Biography"}
           </p>
         </div>
       </div>
@@ -86,7 +97,7 @@ export function createCastProfile(
       </div>
 
       <div
-        class="known-for-posters min-h-500 grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6"
+        class="known-for-posters grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6"
       >
       </div>
     </section>

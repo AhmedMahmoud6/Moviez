@@ -81,10 +81,10 @@ export function createKnownForTV(
       >
       <img
           src="${poster_path ? imagePath + poster_path : moviePosterDefault}"
-          class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3]"
+          class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3] select-none"
           alt="movie photo"
       />
-      <h2 class="text-2xl text-white truncate w-full">
+      <h2 class="text-2xl text-white truncate w-full ">
           ${name}
       </h2>
       <div class="rate flex items-center gap-2">
