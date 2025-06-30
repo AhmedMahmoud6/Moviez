@@ -71,13 +71,13 @@ export function createCastProfile(
 
         <div class="known-categories flex gap-6 text-xl">
           <div
-            class="known-category known-movies text-gray-400 navbar-active p-2 px-6 known-for-active hover:bg-green-300/50 hover:text-white transition-all duration-200 cursor-pointer"
+            class="known-category known-movies w-28 text-gray-400 navbar-active p-2 flex justify-center items-center known-for-active hover:bg-green-300/50 hover:text-white transition-all duration-200 cursor-pointer"
             id="${id}"
           >
             Movies
           </div>
           <div
-            class="known-category known-tv text-gray-400 p-2 px-6 hover:bg-green-300/50 hover:text-white transition-all duration-200 cursor-pointer"
+            class="known-category known-tv w-28 text-gray-400 p-2 flex justify-center items-center  hover:bg-green-300/50 hover:text-white transition-all duration-200 cursor-pointer"
             id="${id}"
           >
             TV Show
@@ -86,7 +86,7 @@ export function createCastProfile(
       </div>
 
       <div
-        class="known-for-posters grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6"
+        class="known-for-posters min-h-500 grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6"
       >
       </div>
     </section>

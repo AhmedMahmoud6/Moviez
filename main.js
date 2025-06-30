@@ -6,6 +6,7 @@ import {
   getDiscoveryData,
   removeCurrentSection,
   scrollToTop,
+  createKnownForTV,
 } from "./functions.js";
 
 import {
@@ -261,6 +262,14 @@ document.addEventListener("click", async (e) => {
   if (e.target.closest(".known-category")) {
     document.querySelector(".known-for-posters").innerHTML = "";
     let clickedCategory = e.target.closest(".known-category");
+
+    document
+      .querySelectorAll(".known-category")
+      .forEach((category) =>
+        category.classList.remove("known-for-active", "navbar-active")
+      );
+    clickedCategory.classList.add("known-for-active", "navbar-active");
+
     if (clickedCategory.classList.contains("known-movies")) {
       let getCastKnownForMovie = await getCustomData(
         "https://api.themoviedb.org/3/person",
@@ -279,8 +288,25 @@ document.addEventListener("click", async (e) => {
       document
         .querySelector(".known-for-details")
         .scrollIntoView({ behavior: "smooth" });
-    } else if (clickedCategory.classList.contains("known-tv"))
-      console.log("tv sir");
+    } else if (clickedCategory.classList.contains("known-tv")) {
+      let getCastKnownForTV = await getCustomData(
+        "https://api.themoviedb.org/3/person",
+        clickedCategory.id,
+        "/tv_credits",
+        APIKEY
+      );
+
+      createKnownForTV(
+        getCastKnownForTV.cast,
+        imagePath,
+        document.querySelector(".known-for-posters"),
+        moviePosterDefault
+      );
+
+      document
+        .querySelector(".known-for-details")
+        .scrollIntoView({ behavior: "smooth" });
+    }
   }
 });
 

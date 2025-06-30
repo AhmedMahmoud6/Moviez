@@ -65,6 +65,40 @@ export function scrollToTop() {
   });
 }
 
+export function createKnownForTV(
+  tvKnownFor,
+  imagePath,
+  tvKnownForParent,
+  moviePosterDefault
+) {
+  tvKnownFor.forEach((knownFor) => {
+    const { name, vote_average, poster_path, id } = knownFor;
+    let tvKnownForHTML = `
+
+      <div
+      class="displayed-tv open-tv fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+      id="${id}"
+      >
+      <img
+          src="${poster_path ? imagePath + poster_path : moviePosterDefault}"
+          class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3]"
+          alt="movie photo"
+      />
+      <h2 class="text-2xl text-white truncate w-full">
+          ${name}
+      </h2>
+      <div class="rate flex items-center gap-2">
+          <i class="fa-solid fa-star text-yellow-300"></i>
+          <h2 class="text-gray-400">${vote_average}</h2>
+      </div>
+      </div>
+
+    `;
+
+    tvKnownForParent.insertAdjacentHTML("beforeend", tvKnownForHTML);
+  });
+}
+
 export function closeMenu(mobileMenu, navbar, discoverContainer) {
   mobileMenu.classList.replace(
     "max-md:translate-x-0",
