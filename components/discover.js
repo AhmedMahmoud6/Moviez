@@ -1,6 +1,6 @@
+import { removeCurrentSection } from "../functions.js";
 export function renderDiscover() {
-  if (document.querySelector("section:not(.movie-skeleton)"))
-    document.querySelector("section:not(.movie-skeleton)").remove();
+  removeCurrentSection();
 
   let discoverHTML = `
     <section

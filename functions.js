@@ -58,6 +58,13 @@ export async function getCustomData(api, movieId = "", custom = "", APIKEY) {
   return myData;
 }
 
+export function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
 export function closeMenu(mobileMenu, navbar, discoverContainer) {
   mobileMenu.classList.replace(
     "max-md:translate-x-0",
@@ -121,6 +128,11 @@ export function formatRevenue(revenue) {
     currency: "USD",
   });
   return formatted;
+}
+
+export function removeCurrentSection() {
+  if (document.querySelector("section:not(.movie-skeleton)"))
+    document.querySelector("section:not(.movie-skeleton)").remove();
 }
 
 export async function getDiscoveryData(

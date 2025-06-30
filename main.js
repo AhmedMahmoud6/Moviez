@@ -4,6 +4,8 @@ import {
   closeMenu,
   updateActiveSwitch,
   getDiscoveryData,
+  removeCurrentSection,
+  scrollToTop,
 } from "./functions.js";
 
 import {
@@ -11,7 +13,11 @@ import {
   createGenres,
   createCast,
   createSimillar,
+  createKnownForMovie,
+  moviePosterDefault,
 } from "./components/movie.js";
+
+import { createCastProfile } from "./components/cast.js";
 
 import { renderDiscover } from "./components/discover.js";
 import { discoverSwiperObj } from "./swiper.js";
@@ -122,13 +128,9 @@ document.addEventListener("click", async (e) => {
   }
 
   if (e.target.closest(".open-movie")) {
-    if (document.querySelector("section:not(.movie-skeleton)"))
-      document.querySelector("section:not(.movie-skeleton)").remove();
+    removeCurrentSection();
     movieSkeleton.classList.remove("hidden");
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    scrollToTop();
 
     try {
       let clickedMovie = e.target.closest(".open-movie");
@@ -206,6 +208,52 @@ document.addEventListener("click", async (e) => {
       movieSkeleton.classList.add("hidden");
       failedLoading.classList.remove("hidden");
     }
+  }
+
+  if (e.target.closest(".cast-open")) {
+    let clickedCast = e.target.closest(".cast-open");
+    let getCastProfile = await getCustomData(
+      "https://api.themoviedb.org/3/person",
+      clickedCast.id,
+      "",
+      APIKEY
+    );
+    let getCastKnownFor = await getCustomData(
+      "https://api.themoviedb.org/3/person",
+      clickedCast.id,
+      "/movie_credits",
+      APIKEY
+    );
+
+    const {
+      known_for_department: knownFor,
+      name,
+      profile_path,
+      gender,
+      birthday,
+      biography,
+      place_of_birth,
+    } = getCastProfile;
+
+    scrollToTop();
+    removeCurrentSection();
+    createCastProfile(
+      imagePath,
+      profile_path,
+      moviePosterDefault,
+      knownFor,
+      gender,
+      birthday,
+      place_of_birth,
+      name,
+      biography
+    );
+    createKnownForMovie(
+      getCastKnownFor.cast,
+      imagePath,
+      document.querySelector(".known-for-posters"),
+      moviePosterDefault
+    );
   }
 });
 

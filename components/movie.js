@@ -4,7 +4,7 @@ import { createSecondCastObj } from "../swiper.js";
 let movieBannerDefault =
   "https://r4.wallpaperflare.com/wallpaper/644/305/118/pattern-black-gradient-texture-wallpaper-1be65c2d03e1bf994574abb9dd4c6c70.jpg";
 
-let moviePosterDefault =
+export let moviePosterDefault =
   "https://r4.wallpaperflare.com/wallpaper/533/463/577/abstract-texture-simple-simple-background-wallpaper-b21162b0fd962e4bda8802c55018d952.jpg";
 
 export function createMovie(
@@ -195,10 +195,10 @@ export function createGenres(movieGenres, genresParent) {
 export function createCast(movieCast, imagePath, castParent, defaultPhoto) {
   movieCast.cast.forEach((cast) => {
     console.log(cast);
-    const { name, profile_path } = cast;
+    const { name, profile_path, id } = cast;
     let castHTML = `
       <div class="swiper-slide">
-          <div class="cast-details flex flex-col items-center text-center">
+          <div class="cast-open cast-details flex flex-col items-center text-center cursor-pointer" id="${id}">
           <img
               src="${profile_path ? imagePath + profile_path : defaultPhoto}"
               class="w-25 h-25 rounded-full object-cover"
@@ -239,6 +239,40 @@ export function createSimillar(movieSimillar, imagePath, simillarParent) {
     `;
 
     simillarParent.insertAdjacentHTML("beforeend", simillarHTML);
+  });
+}
+
+export function createKnownForMovie(
+  movieKnownFor,
+  imagePath,
+  movieKnownForParent,
+  moviePosterDefault
+) {
+  movieKnownFor.forEach((knownFor) => {
+    const { title, vote_average, poster_path, id } = knownFor;
+    let movieKnownForHTML = `
+
+      <div
+      class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+      id="${id}"
+      >
+      <img
+          src="${poster_path ? imagePath + poster_path : moviePosterDefault}"
+          class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3]"
+          alt="movie photo"
+      />
+      <h2 class="text-2xl text-white truncate w-full">
+          ${title}
+      </h2>
+      <div class="rate flex items-center gap-2">
+          <i class="fa-solid fa-star text-yellow-300"></i>
+          <h2 class="text-gray-400">${vote_average}</h2>
+      </div>
+      </div>
+
+    `;
+
+    movieKnownForParent.insertAdjacentHTML("beforeend", movieKnownForHTML);
   });
 }
 

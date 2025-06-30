@@ -7,6 +7,10 @@
   font-weight: bold;
 }
 
+.known-for-active {
+  border-bottom: 2px solid var(--main-color);
+}
+
 .menu-active::before {
   content: "";
   position: absolute;
