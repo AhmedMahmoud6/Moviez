@@ -19,7 +19,7 @@ export function createTV(
   movieOverview
 ) {
   let movieHTML = `
-        <section class="tv md:pl-[280px]">
+        <section class="tv translate-x-0 transition-all duration-300 md:pl-[280px]">
       <div class="tv-details-container relative">
         <img
           src="${movieBanner ? imagePath + movieBanner : movieBannerDefault}"

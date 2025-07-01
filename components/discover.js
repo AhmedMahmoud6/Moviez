@@ -278,7 +278,7 @@ export function renderDiscover() {
               </div>
             </div>
           </div>
-          <div class="trending-tv mb-8 max-xl:basis-1/2 cursor-pointer">
+          <div class="trending-tv open-tv mb-8 max-xl:basis-1/2 cursor-pointer">
             <div class="trending-title mb-5 flex items-center gap-3 text-white">
               <span class="block w-5 h-1 bg-green-400"></span>
               <h1 class="text-2xl">Trending TV</h1>

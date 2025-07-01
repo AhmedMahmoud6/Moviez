@@ -91,3 +91,19 @@ export function createThirdSeasonsObj() {
     },
   });
 }
+
+export function createFourthSeasonsObj() {
+  const secondSwiper = new Swiper(".seasons .fourth-swiper", {
+    // loop: true,
+    slidesPerView: 2,
+    slidesPerGroup: 2,
+    rewind: true,
+    watchOverflow: true,
+    spaceBetween: 20,
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+}

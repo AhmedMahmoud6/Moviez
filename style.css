@@ -53,6 +53,17 @@
   animation: fadeIn 1s ease-in forwards;
 }
 
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+option:disabled {
+  color: white;
+}
+
 img[src=""] {
   display: none;
 }

@@ -77,11 +77,17 @@ mobileMenuBtn.addEventListener("click", () => {
       "max-md:-translate-x-full",
       "max-md:translate-x-0"
     );
-    discoverContainer.classList.replace("translate-x-0", "translate-x-[280px]");
+    document
+      .querySelector("section:not(.movie-skeleton)")
+      .classList.replace("translate-x-0", "translate-x-[280px]");
     navbar.classList.replace("translate-x-0", "translate-x-[280px]");
     menuTriggered = true;
   } else {
-    closeMenu(mobileMenu, navbar, discoverContainer);
+    closeMenu(
+      mobileMenu,
+      navbar,
+      document.querySelector("section:not(.movie-skeleton)")
+    );
     menuTriggered = false;
   }
 });
@@ -93,14 +99,22 @@ refreshButton.addEventListener("click", () => {
 document.addEventListener("click", async (e) => {
   // close menu
   if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-    closeMenu(mobileMenu, navbar, discoverContainer);
+    closeMenu(
+      mobileMenu,
+      navbar,
+      document.querySelector("section:not(.movie-skeleton)")
+    );
     menuTriggered = false;
   }
 
   // close menu when clicking on anything
   if (window.innerWidth < 400) {
     if (mobileMenu.contains(e.target)) {
-      closeMenu(mobileMenu, navbar, discoverContainer);
+      closeMenu(
+        mobileMenu,
+        navbar,
+        document.querySelector("section:not(.movie-skeleton)")
+      );
       menuTriggered = false;
     }
   }
@@ -115,6 +129,7 @@ document.addEventListener("click", async (e) => {
 
     // rerender the discover page
     if (selectedSwitch === "discover") {
+      scrollToTop();
       renderDiscover();
       discoverSwiperObj();
       await getDiscoveryData(
@@ -531,7 +546,11 @@ document.addEventListener("click", async (e) => {
 window.addEventListener("resize", () => {
   const width = window.innerWidth;
   if (width > 768 && menuTriggered) {
-    closeMenu(mobileMenu, navbar, discoverContainer);
+    closeMenu(
+      mobileMenu,
+      navbar,
+      document.querySelector("section:not(.movie-skeleton)")
+    );
     menuTriggered = false;
   }
 });

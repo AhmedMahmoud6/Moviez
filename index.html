@@ -616,6 +616,161 @@
       </div>
     </section> -->
 
+    <div
+      class="movie-section md:pl-[280px] translate-x-0 transition-all duration-300"
+    >
+      <div class="showcase h-120 max-md:h-fit">
+        <div class="third-swiper overflow-hidden relative w-full h-full mb-10">
+          <div class="swiper-wrapper h-full">
+            <div class="swiper-slide h-full">
+              <div class="movie-details-container h-full relative">
+                <img
+                  src="days.webp"
+                  class="w-full h-full absolute top-0 opacity-30 object-cover"
+                  alt="movie banner"
+                />
+                <div
+                  class="movie-details-parent z-10 relative h-full flex max-lg:flex-col max-lg:items-center gap-10 p-20 max-lg:px-5"
+                >
+                  <div
+                    class="movie-details flex flex-col max-lg:items-center justify-center gap-5"
+                  >
+                    <div
+                      class="showcase-title flex items-end gap-4 max-lg:flex-col max-lg:items-center"
+                    >
+                      <h1
+                        class="text-5xl max-xl:text-4xl text-white font-bold max-lg:text-center"
+                      >
+                        28 Days Later
+                      </h1>
+
+                      <div class="movie-rating-parent flex items-center gap-4">
+                        <div class="stars">
+                          <i
+                            class="fa-solid fa-star text-xl max-[500px]:text-base text-yellow-400"
+                          ></i>
+                        </div>
+                        <div class="movie-rating">
+                          <h1 class="text-gray-400 text-xl">7.313</h1>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="movie-genre flex max-lg:flex-wrap max-lg:justify-center gap-4"
+                    >
+                      <div
+                        class="genre bg-green-400 px-4 text-white rounded-xl font-bold"
+                      >
+                        Drama
+                      </div>
+                      <div
+                        class="genre bg-green-400 px-4 text-white rounded-xl font-bold"
+                      >
+                        action
+                      </div>
+                    </div>
+
+                    <div
+                      class="movie-quote w-150 max-lg:w-11/12 max-lg:text-center"
+                    >
+                      <p
+                        class="font-bold text-2xl text-gray-400 italic truncate-multiline max-lg:text-[2.5vw] max-[600px]:!text-[3.4vw]"
+                      >
+                        Five years after the events of Jurassic World Dominion,
+                        covert operations expert Zora Bennett is Jurassic World
+                        Dominion covert operations Five years after
+                      </p>
+                    </div>
+                    <div class="movie-buttons flex gap-6 max-[500px]:flex-col">
+                      <button
+                        class="text-white flex items-center gap-4 bg-green-400 p-3 px-12 max-[1430px]:px-6 cursor-pointer group max-[500px]:text-sm"
+                      >
+                        <i
+                          class="fa-solid fa-play text-2xl group-hover:scale-120 transition-all duration-200"
+                        ></i>
+                        <h1 class="font-bold">PLAY TRAILER</h1>
+                      </button>
+                      <button
+                        class="text-gray-400 flex items-center gap-4 outline-2 outline-gray-400 p-3 px-12 max-[1430px]:px-6 cursor-pointer hover:bg-white hover:text-black hover:outline-transparent transition-all duration-200 max-[500px]:text-sm"
+                      >
+                        <h1 class="font-bold">ADD TO WATCHLIST</h1>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Navigation -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+
+      <div class="all-movies-section my-10 p-20 max-lg:px-10">
+        <div class="filtering flex gap-4 xl:items-center flex-col xl:flex-row">
+          <h1 class="text-3xl text-white font-bold max-lg:text-center">
+            All Movies
+          </h1>
+          <div class="filters flex gap-6 max-lg:flex-col max-lg:items-center">
+            <select
+              name="movie-year"
+              class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+            >
+              <option disabled>Year</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+            </select>
+            <select
+              name="movie-language"
+              class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+            >
+              <option disabled>Language</option>
+              <option value="english">English</option>
+              <option value="arabic">Arabic</option>
+              <option value="french">French</option>
+              <option value="spanish">Spanish</option>
+            </select>
+            <select
+              name="movie-rate"
+              class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+            >
+              <option disabled>Rate</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+            <select
+              name="movie-genre"
+              class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+            >
+              <option disabled>Genre</option>
+              <option value="action">Action</option>
+              <option value="drama">Drama</option>
+              <option value="fiction">Fiction</option>
+            </select>
+            <select
+              name="movie-sort"
+              class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+            >
+              <option disabled>Sort By</option>
+              <option value="popular">Popular</option>
+              <option value="release date">Release Date</option>
+              <option value="rate">Rate</option>
+              <option value="revenue">Revenue</option>
+            </select>
+          </div>
+        </div>
+        <div class="all-displayed-movies"></div>
+      </div>
+    </div>
+
     <script type="module" src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module" src="swiper.js"></script>
