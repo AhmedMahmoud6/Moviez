@@ -1,6 +1,9 @@
-import { capitalize } from "../functions.js";
 import { createFourthSeasonsObj } from "../swiper.js";
-import { createGenres, movieBannerDefault } from "./movie.js";
+import {
+  createGenres,
+  movieBannerDefault,
+  moviePosterDefault,
+} from "./movie.js";
 
 export const allGenres = {
   genres: [
@@ -111,8 +114,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                     <option disabled>Year</option>
                 </select>
                 <select
-                    name="movie-language"
-                    class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+                    class="movie-language text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
                 >
                     <option disabled>Language</option>
                     <option value="en" selected>English</option>
@@ -121,13 +123,12 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                     <option value="es">Spanish</option>
                 </select>
                 <select
-                    name="movie-rate"
-                    class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+                    class="movie-rate text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
                 >
                     <option disabled>Rate</option>
                     <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7" selected>7</option>
+                    <option value="6" selected>6</option>
+                    <option value="7">7</option>
                     <option value="8">8</option>
                     <option value="9">9</option>
                     <option value="10">10</option>
@@ -136,13 +137,11 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                     class="movie-genre-select text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
                 >
                     <option disabled>Genre</option>
-                    <option value="action" selected>Action</option>
-                    <option value="drama">Drama</option>
-                    <option value="fiction">Fiction</option>
+
                 </select>
                 <select
-                    name="movie-sort"
-                    class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
+
+                    class="movie-sort text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
                 >
                     <option disabled>Sort By</option>
                     <option value="popularity.desc" selected>Popular</option>
@@ -152,25 +151,8 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                 </select>
           </div>
         </div>
-        <div
-          class="all-displayed-movies grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6 mt-10"
-        >
-          <div
-            class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
-            id="${"id"}"
-          >
-            <img
-              src="days.webp"
-              class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3]"
-              alt="movie photo"
-            />
-            <h2 class="text-2xl text-white truncate w-full">28 days later</h2>
-            <div class="rate flex items-center gap-2">
-              <i class="fa-solid fa-star text-yellow-300"></i>
-              <h2 class="text-gray-400">7.123</h2>
-            </div>
-          </div>
-        </div>
+
+        <div class="all-displayed-movies grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6 mt-10"></div>
       </div>
     </section>
     `;
@@ -203,7 +185,6 @@ export function createShowcase(
     const matchingGenres = allGenres.genres.filter((genre) =>
       genre_ids.includes(genre.id)
     );
-    console.log(genre_ids);
 
     let showcaseHTML = `
            <div class="swiper-slide h-full">
@@ -304,4 +285,36 @@ export function createFilters() {
       .querySelector(".movie-genre-select")
       .insertAdjacentHTML("beforeend", genreHTML);
   });
+
+  document.querySelector(".movie-genre-select").value = "28";
+}
+
+export function createAllMoviesForMoviesSection(
+  movieId,
+  imagePath,
+  poster_path,
+  movieName,
+  movieRate
+) {
+  let movieHTML = `
+    <div
+        class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+        id="${movieId}"
+    >
+        <img
+            src="${poster_path ? imagePath + poster_path : moviePosterDefault}"
+            class="w-full min-h-[0px] max-h-[400px] object-cover rounded-xl hover:scale-95 transition-scale duration-300 aspect-[2/3]"
+            alt="movie photo"
+        />
+        <h2 class="text-2xl text-white truncate w-full">${movieName}</h2>
+        <div class="rate flex items-center gap-2">
+            <i class="fa-solid fa-star text-yellow-300"></i>
+            <h2 class="text-gray-400">${movieRate}</h2>
+        </div>
+    </div>
+
+    `;
+  document
+    .querySelector(".all-displayed-movies")
+    .insertAdjacentHTML("beforeend", movieHTML);
 }
