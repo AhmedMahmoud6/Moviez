@@ -88,7 +88,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
         <section
       class="movie-section md:pl-[280px] translate-x-0 transition-all duration-300"
     >
-      <div class="showcase h-120 max-md:h-fit">
+      <div class="showcase h-120 max-md:h-fit fade-in">
         <div class="fourth-swiper overflow-hidden relative w-full h-full mb-10">
           <div class="swiper-wrapper h-full">
 
