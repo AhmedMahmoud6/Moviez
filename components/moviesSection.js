@@ -115,7 +115,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                     class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
                 >
                     <option disabled>Language</option>
-                    <option value="en">English</option>
+                    <option value="en" selected>English</option>
                     <option value="ar">Arabic</option>
                     <option value="fr">French</option>
                     <option value="es">Spanish</option>
@@ -127,7 +127,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                     <option disabled>Rate</option>
                     <option value="5">5</option>
                     <option value="6">6</option>
-                    <option value="7">7</option>
+                    <option value="7" selected>7</option>
                     <option value="8">8</option>
                     <option value="9">9</option>
                     <option value="10">10</option>
@@ -136,7 +136,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                     class="movie-genre-select text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
                 >
                     <option disabled>Genre</option>
-                    <option value="action">Action</option>
+                    <option value="action" selected>Action</option>
                     <option value="drama">Drama</option>
                     <option value="fiction">Fiction</option>
                 </select>
@@ -145,7 +145,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
                     class="text-white bg-[#2b2a2a] p-1 px-4 font-bold rounded-2xl"
                 >
                     <option disabled>Sort By</option>
-                    <option value="popularity.desc">Popular</option>
+                    <option value="popularity.desc" selected>Popular</option>
                     <option value="primary_release_date.desc">Release Date</option>
                     <option value="vote_average.desc">Rate</option>
                     <option value="revenue.desc">Revenue</option>
@@ -290,12 +290,13 @@ export function createShowcase(
 
 export function createFilters() {
   let currentYear = new Date();
-  for (let year = 1990; year < currentYear.getFullYear(); year++) {
+  for (let year = 1990; year <= currentYear.getFullYear(); year++) {
     let yearOptionHTML = `<option value="${year}">${year}</option>`;
     document
       .querySelector(".movie-year")
       .insertAdjacentHTML("beforeend", yearOptionHTML);
   }
+  document.querySelector(".movie-year").value = currentYear.getFullYear();
 
   allGenres.genres.forEach((genre) => {
     let genreHTML = `<option value="${genre.id}">${genre.name}</option>`;
