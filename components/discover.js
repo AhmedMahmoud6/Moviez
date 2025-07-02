@@ -4,7 +4,7 @@ export function renderDiscover() {
 
   let discoverHTML = `
     <section
-      class="discover-container flex max-xl:flex-wrap md:pl-[280px] transition-all duration-300 transform translate-x-0"
+      class="discover-container fade-in flex max-xl:flex-wrap md:pl-[280px] transition-all duration-300 transform translate-x-0"
     >
       <section class="discover-content w-9/12 max-xl:w-full bg-[#1b1c22] p-8">
         <div class="content">
@@ -259,7 +259,7 @@ export function renderDiscover() {
           class="trending-content max-[450px]:!min-w-[0px] max-xl:min-w-[300px] max-[450px]:flex-col max-xl:flex max-xl:justify-center max-xl:gap-10 max-xl:h-fit sticky top-[50px]"
         >
           <div
-            class="trending-movie open-movie mb-8 max-xl:basis-1/2 cursor-pointer"
+            class="trending-movie fade-in open-movie mb-8 max-xl:basis-1/2 cursor-pointer"
           >
             <div class="trending-title mb-5 flex items-center gap-3 text-white">
               <span class="block w-5 h-1 bg-green-400"></span>
@@ -278,7 +278,7 @@ export function renderDiscover() {
               </div>
             </div>
           </div>
-          <div class="trending-tv open-tv mb-8 max-xl:basis-1/2 cursor-pointer">
+          <div class="trending-tv fade-in open-tv mb-8 max-xl:basis-1/2 cursor-pointer">
             <div class="trending-title mb-5 flex items-center gap-3 text-white">
               <span class="block w-5 h-1 bg-green-400"></span>
               <h1 class="text-2xl">Trending TV</h1>

@@ -21,7 +21,7 @@ export function createMovie(
   movieOverview
 ) {
   let movieHTML = `
-        <section class="movie translate-x-0 transition-all duration-300 md:pl-[280px]">
+        <section class="movie fade-in translate-x-0 transition-all duration-300 md:pl-[280px]">
       <div class="movie-details-container relative">
         <img
           src="${movieBanner ? imagePath + movieBanner : movieBannerDefault}"

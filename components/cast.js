@@ -20,7 +20,7 @@ export function createCastProfile(
   };
 
   let castHTML = `
-    <section class="cast-profile translate-x-0 transition-all duration-300 md:pl-[280px] py-10 px-4">
+    <section class="cast-profile fade-in translate-x-0 transition-all duration-300 md:pl-[280px] py-10 px-4">
       <div class="profile flex gap-10 items-start max-lg:flex-col mb-10">
         <div
           class="profile-card bg-[#2c303a] flex flex-col flex-shrink-0 gap-4 w-80 p-8 rounded-xl max-lg:flex-row max-lg:w-full max-[500px]:!flex-col"

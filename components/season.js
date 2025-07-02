@@ -7,7 +7,7 @@ export function createSeasonDetails(
   id
 ) {
   let seasonDetailsHTML = `
-    <section class="current-season translate-x-0 transition-all duration-300 md:pl-[280px]">
+    <section class="current-season fade-in translate-x-0 transition-all duration-300 md:pl-[280px]">
       <div
         class="season-info bg-[#444857] flex items-center gap-10 max-md:gap-4 rounded-xl p-6"
       >
