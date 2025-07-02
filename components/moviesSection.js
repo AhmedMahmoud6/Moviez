@@ -179,7 +179,7 @@ export function createMoviesSection(
       <div class="all-movies-section my-10 p-20 max-lg:px-10">
         <div class="filtering flex gap-4 xl:items-center flex-col xl:flex-row fade-in">
           <h1 class="text-3xl text-white font-bold max-lg:text-center">
-            All Movies
+            ${isMovie ? "All Movies" : "All TV"}
           </h1>
           <div class="filters flex gap-6 max-lg:flex-col max-lg:items-center">
                  <select

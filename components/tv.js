@@ -218,7 +218,7 @@ export async function createSeasons(tvId, totalSeasons, seasonsParent, APIKEY) {
                         <h2 class="text-gray-400 text-xl mb-4">${
                           air_date ? air_date.split("-")[0] : "No Date"
                         }</h2>
-                        <p class="text-white text-xl overflow-auto max-h-70">${
+                        <p class="season-text text-white text-xl overflow-auto max-h-70">${
                           overview ? overview : ""
                         } </p>
                     </div>

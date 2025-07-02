@@ -77,10 +77,6 @@ const APIKEY = "9cca2fe3162fa3d7db2b1762e9779b1d";
 let getPopular = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=en-US`;
 let topRated = `https://api.themoviedb.org/3/movie/top_rated?api_key=${APIKEY}&language=en-US&page=1`;
 let nowPlaying = `https://api.themoviedb.org/3/movie/now_playing?api_key=${APIKEY}&language=en-US&page=1`;
-let searchQuery = "";
-let searchMovies = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${searchQuery}`;
-let selectedGenre = 0;
-let genreMovies = `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&with_genres=${selectedGenre}`;
 let upcomingMovie = `https://api.themoviedb.org/3/movie/upcoming?api_key=${APIKEY}&language=en-US`;
 let trendingMovie = `https://api.themoviedb.org/3/trending/movie/week?api_key=${APIKEY}`;
 let trendingTv = `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}`;
@@ -147,7 +143,7 @@ document.addEventListener("click", async (e) => {
   }
 
   // close menu when clicking on anything
-  if (window.innerWidth < 400) {
+  if (window.innerWidth < 768) {
     if (mobileMenu.contains(e.target)) {
       closeMenu(
         mobileMenu,
@@ -689,9 +685,6 @@ window.addEventListener("resize", () => {
     menuTriggered = false;
   }
 });
-
-// getData(movieDetails).then((result) => console.log(result));
-// console.log(await getMovieCastById("1311844", APIKEY));
 
 await getDiscoveryData(
   getData,

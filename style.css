@@ -76,3 +76,29 @@ img[src=""] {
     opacity: 1;
   }
 }
+
+.search-container::-webkit-scrollbar,
+.season-text::-webkit-scrollbar {
+  width: 10px;
+}
+
+.search-container::-webkit-scrollbar-track,
+.season-text::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.search-container::-webkit-scrollbar-track:hover,
+.season-text::-webkit-scrollbar-track:hover {
+  background-color: #323334;
+}
+
+.search-container::-webkit-scrollbar-thumb,
+.season-text::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.search-container:hover::-webkit-scrollbar-thumb,
+.season-text:hover::-webkit-scrollbar-thumb {
+  background-color: #707171;
+}
