@@ -268,14 +268,13 @@ export async function updateMovieSectionMovies(APIKEY, imagePath, currentPage) {
 
 export function updatePaginationDisabled(currentPage, lastPage) {
   restartPaginationDisabled();
-  if (currentPage === lastPage) {
+  if (currentPage === lastPage && currentPage === 1) {
     document
       .querySelectorAll(".first-parent button")
       .forEach((btn) => (btn.disabled = true));
     document
       .querySelectorAll(".last-parent button")
       .forEach((btn) => (btn.disabled = true));
-    console.log("yes");
   } else if (currentPage === 1) {
     document
       .querySelectorAll(".first-parent button")
