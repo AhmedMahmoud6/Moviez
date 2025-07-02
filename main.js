@@ -368,7 +368,8 @@ document.addEventListener("click", async (e) => {
             true,
             APIKEY,
             createKnownForMovie,
-            clickedCategory
+            clickedCategory,
+            imagePath
           );
         } catch (error) {
           console.log(error);
@@ -379,7 +380,8 @@ document.addEventListener("click", async (e) => {
             false,
             APIKEY,
             createKnownForTV,
-            clickedCategory
+            clickedCategory,
+            imagePath
           );
         } catch (error) {
           console.log(error);

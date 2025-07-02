@@ -4,6 +4,7 @@ import {
   createGenres,
   createMovie,
   createSimillar,
+  moviePosterDefault,
 } from "./components/movie.js";
 import { createAllMoviesForMoviesSection } from "./components/moviesSection.js";
 import { createSeasons, createTV } from "./components/tv.js";
@@ -421,7 +422,8 @@ export async function renderKnownForMoviesOrTV(
   isItMovie,
   APIKEY,
   callbackFunc,
-  clickedCategory
+  clickedCategory,
+  imagePath
 ) {
   let getCastKnownForMovie = await getCustomData(
     "https://api.themoviedb.org/3/person",
