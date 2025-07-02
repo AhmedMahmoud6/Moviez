@@ -93,14 +93,26 @@ export function createThirdSeasonsObj() {
 }
 
 export function createFourthSeasonsObj() {
-  const secondSwiper = new Swiper(".seasons .fourth-swiper", {
+  const secondSwiper = new Swiper(".showcase .fourth-swiper", {
     // loop: true,
-    slidesPerView: 2,
-    slidesPerGroup: 2,
+    slidesPerView: 1,
+    slidesPerGroup: 1,
     rewind: true,
     watchOverflow: true,
     spaceBetween: 20,
 
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    },
+    speed: 700,
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",

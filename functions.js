@@ -1,4 +1,5 @@
 import { createMoviesDiscovery } from "./components/discoverMovies.js";
+import { createAllMoviesForMoviesSection } from "./components/moviesSection.js";
 
 export async function getData(api) {
   let requestData = await fetch(api);
@@ -221,4 +222,63 @@ export async function getDiscoveryData(
 
   await renderTrending(getData, trendingMovie, imagePath, trendingMovieDiv);
   await renderTrending(getData, trendingTv, imagePath, trendingTvDiv, false);
+}
+
+export function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export async function updateMovieSectionMovies(APIKEY, imagePath, currentPage) {
+  document.querySelector(".filtering").scrollIntoView({ behavior: "smooth" });
+
+  let displayedMovieContainer = document.querySelector(".all-displayed-movies");
+  displayedMovieContainer.classList.add("min-h-500");
+  displayedMovieContainer.innerHTML = "";
+
+  let allFilters = document.querySelectorAll(".filters select");
+  const [
+    { value: yearValue },
+    { value: languageValue },
+    { value: rateValue },
+    { value: genreValue },
+    { value: sortValue },
+  ] = allFilters;
+  let updatedFilteredMoviesData = await getData(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&primary_release_year=${yearValue}&with_original_language=${languageValue}&vote_average.gte=${rateValue}&with_genres=${genreValue}&sort_by=${sortValue}&page=${currentPage}`
+  );
+
+  updatedFilteredMoviesData.results.forEach((movie) => {
+    const { title, id, poster_path, vote_average } = movie;
+    createAllMoviesForMoviesSection(
+      id,
+      imagePath,
+      poster_path,
+      title,
+      vote_average
+    );
+  });
+
+  displayedMovieContainer.classList.remove("min-h-500");
+  return updatedFilteredMoviesData.total_pages;
+}
+
+export function updatePaginationDisabled(currentPage, lastPage) {
+  restartPaginationDisabled();
+  if (currentPage === 1) {
+    document
+      .querySelectorAll(".first-parent button")
+      .forEach((btn) => (btn.disabled = true));
+  } else if (currentPage === lastPage) {
+    document
+      .querySelectorAll(".last-parent button")
+      .forEach((btn) => (btn.disabled = true));
+  }
+}
+
+export function restartPaginationDisabled() {
+  const firstButtons = document.querySelectorAll(".first-parent button");
+  const lastButtons = document.querySelectorAll(".last-parent button");
+  firstButtons.forEach((btn) => (btn.disabled = false));
+  lastButtons.forEach((btn) => (btn.disabled = false));
 }

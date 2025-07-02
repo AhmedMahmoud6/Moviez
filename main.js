@@ -7,6 +7,8 @@ import {
   removeCurrentSection,
   scrollToTop,
   createKnownForTV,
+  updateMovieSectionMovies,
+  updatePaginationDisabled,
 } from "./functions.js";
 
 import {
@@ -25,6 +27,14 @@ import { createCastProfile } from "./components/cast.js";
 import { renderDiscover } from "./components/discover.js";
 import { createThirdSeasonsObj, discoverSwiperObj } from "./swiper.js";
 import { createSeasonDetails } from "./components/season.js";
+import {
+  createAllMoviesForMoviesSection,
+  createMoviesSection,
+} from "./components/moviesSection.js";
+
+let lastPage = 1;
+let currentPage = 1;
+
 renderDiscover();
 discoverSwiperObj();
 
@@ -148,7 +158,58 @@ document.addEventListener("click", async (e) => {
         trendingTv,
         document.querySelector(".trending-tv")
       );
+    } else if (selectedSwitch === "movies") {
+      removeCurrentSection();
+      let currentYear = new Date();
+      let getMoviesSectionShowcaseData = await getData(nowPlaying);
+      createMoviesSection(getMoviesSectionShowcaseData, imagePath);
+      let getMoviesSectionFilteredData = await getData(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&primary_release_year=${currentYear.getFullYear()}&sort_by=popularity.desc&vote_average.gte=6&with_original_language=en&with_genres=28`
+      );
+
+      lastPage = getMoviesSectionFilteredData.total_pages;
+
+      getMoviesSectionFilteredData.results.forEach((movie) => {
+        const { title, id, poster_path, vote_average } = movie;
+        createAllMoviesForMoviesSection(
+          id,
+          imagePath,
+          poster_path,
+          title,
+          vote_average
+        );
+      });
+      updatePaginationDisabled(currentPage, lastPage);
+      document
+        .querySelector(".filters")
+        .addEventListener("change", async () => {
+          currentPage = 1;
+          let pageText = document.querySelectorAll(".page-number");
+          updatePaginationDisabled(currentPage, lastPage);
+          for (let i of pageText) i.textContent = currentPage;
+          let updatedMovies = await updateMovieSectionMovies(
+            APIKEY,
+            imagePath,
+            currentPage
+          );
+          lastPage = updatedMovies;
+        });
     }
+  }
+  if (e.target.closest(".pagination") && e.target.localName === "button") {
+    let pageText = document.querySelectorAll(".page-number");
+
+    let selectedBtn = e.target;
+
+    if (selectedBtn.classList.item(0) === "first-page") currentPage = 1;
+    else if (selectedBtn.classList.item(0) === "prev-page") currentPage -= 1;
+    else if (selectedBtn.classList.item(0) === "last-page")
+      currentPage = lastPage;
+    else if (selectedBtn.classList.item(0) === "next-page") currentPage += 1;
+
+    for (let i of pageText) i.textContent = currentPage;
+    updatePaginationDisabled(currentPage, lastPage);
+    await updateMovieSectionMovies(APIKEY, imagePath, currentPage);
   }
 
   if (e.target.closest(".open-movie")) {
