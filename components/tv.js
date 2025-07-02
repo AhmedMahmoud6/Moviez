@@ -1,5 +1,5 @@
 import { convertMinutesToHours, getCustomData } from "../functions.js";
-import { createSecondCastObj, createThirdSeasonsObj } from "../swiper.js";
+import { createSecondCastObj } from "../swiper.js";
 import {
   createMovieStars,
   moviePosterDefault,

@@ -1,5 +1,3 @@
-import { moviePosterDefault } from "./movie.js";
-
 export function createSearchResult(searchObj, imagePath, searchResultParent) {
   if (searchObj.length > 0)
     searchObj.forEach((searchQuery) => {

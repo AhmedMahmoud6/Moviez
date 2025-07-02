@@ -1,5 +1,13 @@
 import { createMoviesDiscovery } from "./components/discoverMovies.js";
+import {
+  createCast,
+  createGenres,
+  createMovie,
+  createSimillar,
+} from "./components/movie.js";
 import { createAllMoviesForMoviesSection } from "./components/moviesSection.js";
+import { createSeasons, createTV } from "./components/tv.js";
+import { createThirdSeasonsObj } from "./swiper.js";
 
 export async function getData(api) {
   let requestData = await fetch(api);
@@ -141,27 +149,6 @@ export function updateActiveSwitch(allSwitches, selectedSwitch) {
   });
 }
 
-// export async function getMovieDataById(movieId, APIKEY) {
-//   let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${APIKEY}`;
-//   let moviePromise = await fetch(movieEndpoint);
-//   let movieData = await moviePromise.json();
-//   return movieData;
-// }
-
-// export async function getMovieCastById(movieId, APIKEY) {
-//   let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${APIKEY}`;
-//   let moviePromise = await fetch(movieEndpoint);
-//   let movieData = await moviePromise.json();
-//   return movieData;
-// }
-
-// export async function getMovieSimillarById(movieId, APIKEY) {
-//   let movieEndpoint = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${APIKEY}`;
-//   let moviePromise = await fetch(movieEndpoint);
-//   let movieData = await moviePromise.json();
-//   return movieData;
-// }
-
 export function convertMinutesToHours(minutes) {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
@@ -228,11 +215,6 @@ export async function getDiscoveryData(
 
   await renderTrending(getData, trendingMovie, imagePath, trendingMovieDiv);
   await renderTrending(getData, trendingTv, imagePath, trendingTvDiv, false);
-}
-
-export function capitalize(str) {
-  if (!str) return "";
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export async function updateMovieSectionMovies(
@@ -307,4 +289,151 @@ export function restartPaginationDisabled() {
   const lastButtons = document.querySelectorAll(".last-parent button");
   firstButtons.forEach((btn) => (btn.disabled = false));
   lastButtons.forEach((btn) => (btn.disabled = false));
+}
+
+export async function openMovieOrTV(
+  isItMovie,
+  clickedMovieClassName,
+  target,
+  APIKEY,
+  movieSkeleton,
+  imagePath,
+  defaultPhoto,
+  failedLoading
+) {
+  removeCurrentSection();
+  movieSkeleton.classList.remove("hidden");
+  scrollToTop();
+  failedLoading.classList.add("hidden");
+  try {
+    let clickedMovie = target.closest(clickedMovieClassName);
+    let clickedMovieDetails = await getCustomData(
+      `https://api.themoviedb.org/3/${isItMovie ? "movie" : "tv"}`,
+      clickedMovie.id,
+      "",
+      APIKEY
+    );
+    let clickedMovieCast = await getCustomData(
+      `https://api.themoviedb.org/3/${isItMovie ? "movie" : "tv"}`,
+      clickedMovie.id,
+      "/credits",
+      APIKEY
+    );
+    let clickedMovieSimillar = await getCustomData(
+      `https://api.themoviedb.org/3/${isItMovie ? "movie" : "tv"}`,
+      clickedMovie.id,
+      "/similar",
+      APIKEY
+    );
+    let clickedMovieRecommendations = await getCustomData(
+      `https://api.themoviedb.org/3/${isItMovie ? "movie" : "tv"}`,
+      clickedMovie.id,
+      "/recommendations",
+      APIKEY
+    );
+
+    movieSkeleton.classList.add("hidden");
+    const {
+      title,
+      name,
+      backdrop_path: movieBanner,
+      poster_path: moviePoster,
+      vote_average: movieRate,
+      tagline: quote,
+      overview: movieDesc,
+      spoken_languages: movieLang,
+      runtime,
+      release_date,
+      episode_run_time,
+      first_air_date,
+      revenue,
+      genres,
+      number_of_seasons,
+    } = clickedMovieDetails.myData;
+
+    let displayName = isItMovie ? title : name;
+    let movieDuration = isItMovie ? runtime : episode_run_time;
+    let movieDate = isItMovie ? release_date : first_air_date;
+    if (isItMovie) {
+      createMovie(
+        movieBanner,
+        moviePoster,
+        imagePath,
+        displayName,
+        movieRate,
+        movieDuration,
+        revenue,
+        movieDate,
+        movieLang,
+        quote,
+        movieDesc
+      );
+    } else {
+      createTV(
+        movieBanner,
+        moviePoster,
+        imagePath,
+        displayName,
+        movieRate,
+        movieDuration[0],
+        movieDate,
+        movieLang,
+        quote,
+        movieDesc
+      );
+
+      await createSeasons(
+        clickedMovie.id,
+        number_of_seasons,
+        document.querySelector(".seasons .swiper-wrapper"),
+        APIKEY
+      );
+      createThirdSeasonsObj();
+    }
+    createGenres(
+      genres,
+      document.querySelector(`${isItMovie ? ".movie-genre" : ".tv-genre"}`)
+    );
+    createCast(
+      clickedMovieCast.myData,
+      imagePath,
+      document.querySelector(".cast .swiper-wrapper"),
+      defaultPhoto
+    );
+    createSimillar(
+      clickedMovieSimillar.myData,
+      imagePath,
+      document.querySelector(".simillar .swiper-wrapper")
+    );
+    createSimillar(
+      clickedMovieRecommendations.myData,
+      imagePath,
+      document.querySelector(".recommendations .swiper-wrapper")
+    );
+  } catch (error) {
+    movieSkeleton.classList.add("hidden");
+    failedLoading.classList.remove("hidden");
+    console.log(error);
+  }
+}
+
+export async function renderKnownForMoviesOrTV(
+  isItMovie,
+  APIKEY,
+  callbackFunc,
+  clickedCategory
+) {
+  let getCastKnownForMovie = await getCustomData(
+    "https://api.themoviedb.org/3/person",
+    clickedCategory.id,
+    `/${isItMovie ? "movie" : "tv"}_credits`,
+    APIKEY
+  );
+
+  callbackFunc(
+    getCastKnownForMovie.myData.cast,
+    imagePath,
+    document.querySelector(".known-for-posters"),
+    moviePosterDefault
+  );
 }

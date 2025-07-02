@@ -9,23 +9,16 @@ import {
   createKnownForTV,
   updateMovieSectionMovies,
   updatePaginationDisabled,
+  openMovieOrTV,
+  renderKnownForMoviesOrTV,
 } from "./functions.js";
 
-import {
-  createMovie,
-  createGenres,
-  createCast,
-  createSimillar,
-  createKnownForMovie,
-  moviePosterDefault,
-} from "./components/movie.js";
-
-import { createSeasons, createTV } from "./components/tv.js";
+import { createKnownForMovie, moviePosterDefault } from "./components/movie.js";
 
 import { createCastProfile } from "./components/cast.js";
 
 import { renderDiscover } from "./components/discover.js";
-import { createThirdSeasonsObj, discoverSwiperObj } from "./swiper.js";
+import { discoverSwiperObj } from "./swiper.js";
 import { createSeasonDetails } from "./components/season.js";
 import {
   createAllMoviesForMoviesSection,
@@ -45,10 +38,8 @@ let mobileMenu = document.querySelector(".side-bar");
 let menuTriggered = false;
 let navbar = document.querySelector("nav");
 let allSwitches = document.querySelectorAll(".main-switch");
-let discoverContainer = document.querySelector(".discover-container");
 let trendingMovieDiv = document.querySelector(".trending-movie");
 let trendingTvDiv = document.querySelector(".trending-tv");
-let trendingParent = document.querySelector(".trending");
 let refreshButton = document.querySelector(".refresh");
 
 let searchInput = document.querySelector(".search-container input");
@@ -158,11 +149,11 @@ document.addEventListener("click", async (e) => {
   // update selected link
   if (e.target.classList.contains("main-switch")) {
     let selectedDiv = e.target;
-    let selectedSwitch = ["discover", "movies", "tv", "people", "about"].find(
-      (type) => selectedDiv.classList.contains(type)
+    let selectedSwitch = ["discover", "movies", "tv"].find((type) =>
+      selectedDiv.classList.contains(type)
     );
     updateActiveSwitch(allSwitches, selectedSwitch);
-
+    failedLoading.classList.add("hidden");
     // rerender the discover page
     if (selectedSwitch === "discover") {
       scrollToTop();
@@ -190,67 +181,72 @@ document.addEventListener("click", async (e) => {
 
       removeCurrentSection();
 
-      let currentYear = new Date();
-      let getMoviesSectionShowcaseData = await getData(
-        isMovie
-          ? nowPlaying
-          : `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}&language=en-US&page=1`
-      );
-
-      createMoviesSection(getMoviesSectionShowcaseData, imagePath, isMovie);
-      currentPage = 1;
-
-      let getMoviesSectionFilteredData = await getData(
-        `https://api.themoviedb.org/3/discover/${
-          isMovie ? "movie" : "tv"
-        }?api_key=${APIKEY}&${
-          isMovie ? "primary_release_year" : "first_air_date_year"
-        }=${currentYear.getFullYear()}&sort_by=popularity.desc&vote_average.gte=6&with_original_language=en&with_genres=${
-          isMovie ? "28" : "10759"
-        }&page=1`
-      );
-
-      lastPage = getMoviesSectionFilteredData.total_pages;
-
-      getMoviesSectionFilteredData.results.forEach((movie) => {
-        const { title, name, id, poster_path, vote_average } = movie;
-        createAllMoviesForMoviesSection(
-          id,
-          imagePath,
-          poster_path,
-          isMovie ? title : name,
-          vote_average,
+      try {
+        let currentYear = new Date();
+        let getMoviesSectionShowcaseData = await getData(
           isMovie
+            ? nowPlaying
+            : `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}&language=en-US&page=1`
         );
-      });
-      updatePaginationDisabled(currentPage, lastPage);
-      document
-        .querySelector(".filters")
-        .addEventListener("change", async () => {
-          document
-            .querySelectorAll(".pagination")
-            .forEach((pagination) => pagination.classList.remove("hidden"));
-          currentPage = 1;
-          let pageText = document.querySelectorAll(".page-number");
 
-          for (let i of pageText) i.textContent = currentPage;
-          let updatedMovies = await updateMovieSectionMovies(
-            APIKEY,
+        createMoviesSection(getMoviesSectionShowcaseData, imagePath, isMovie);
+        currentPage = 1;
+
+        let getMoviesSectionFilteredData = await getData(
+          `https://api.themoviedb.org/3/discover/${
+            isMovie ? "movie" : "tv"
+          }?api_key=${APIKEY}&${
+            isMovie ? "primary_release_year" : "first_air_date_year"
+          }=${currentYear.getFullYear()}&sort_by=popularity.desc&vote_average.gte=6&with_original_language=en&with_genres=${
+            isMovie ? "28" : "10759"
+          }&page=1`
+        );
+
+        lastPage = getMoviesSectionFilteredData.total_pages;
+
+        getMoviesSectionFilteredData.results.forEach((movie) => {
+          const { title, name, id, poster_path, vote_average } = movie;
+          createAllMoviesForMoviesSection(
+            id,
             imagePath,
-            currentPage,
+            poster_path,
+            isMovie ? title : name,
+            vote_average,
             isMovie
           );
-          lastPage = updatedMovies.totalPages;
-          updatePaginationDisabled(currentPage, lastPage);
-
-          if (updatedMovies.data.total_results === 0) {
+        });
+        updatePaginationDisabled(currentPage, lastPage);
+        document
+          .querySelector(".filters")
+          .addEventListener("change", async () => {
             document
               .querySelectorAll(".pagination")
-              .forEach((pagination) => pagination.classList.add("hidden"));
-            document.querySelector(".all-displayed-movies").innerHTML =
-              "<h1 class='absolute w-full text-red-400 text-xl text-center font-bold'>No results found</h1>";
-          }
-        });
+              .forEach((pagination) => pagination.classList.remove("hidden"));
+            currentPage = 1;
+            let pageText = document.querySelectorAll(".page-number");
+
+            for (let i of pageText) i.textContent = currentPage;
+            let updatedMovies = await updateMovieSectionMovies(
+              APIKEY,
+              imagePath,
+              currentPage,
+              isMovie
+            );
+            lastPage = updatedMovies.totalPages;
+            updatePaginationDisabled(currentPage, lastPage);
+
+            if (updatedMovies.data.total_results === 0) {
+              document
+                .querySelectorAll(".pagination")
+                .forEach((pagination) => pagination.classList.add("hidden"));
+              document.querySelector(".all-displayed-movies").innerHTML =
+                "<h1 class='absolute w-full text-red-400 text-xl text-center font-bold'>No results found</h1>";
+            }
+          });
+      } catch (error) {
+        movieSkeleton.classList.add("hidden");
+        failedLoading.classList.remove("hidden");
+      }
     }
   }
   if (e.target.closest(".pagination") && e.target.localName === "button") {
@@ -270,392 +266,179 @@ document.addEventListener("click", async (e) => {
   }
 
   if (e.target.closest(".open-movie")) {
-    removeCurrentSection();
-    movieSkeleton.classList.remove("hidden");
-    scrollToTop();
-
-    try {
-      let clickedMovie = e.target.closest(".open-movie");
-      let clickedMovieDetails = await getCustomData(
-        `https://api.themoviedb.org/3/movie`,
-        clickedMovie.id,
-        "",
-        APIKEY
-      );
-      let clickedMovieCast = await getCustomData(
-        `https://api.themoviedb.org/3/movie`,
-        clickedMovie.id,
-        "/credits",
-        APIKEY
-      );
-      let clickedMovieSimillar = await getCustomData(
-        `https://api.themoviedb.org/3/movie`,
-        clickedMovie.id,
-        "/similar",
-        APIKEY
-      );
-      let clickedMovieRecommendations = await getCustomData(
-        `https://api.themoviedb.org/3/movie`,
-        clickedMovie.id,
-        "/recommendations",
-        APIKEY
-      );
-
-      movieSkeleton.classList.add("hidden");
-      const {
-        title,
-        backdrop_path: movieBanner,
-        poster_path: moviePoster,
-        vote_average: movieRate,
-        tagline: quote,
-        overview: movieDesc,
-        spoken_languages: movieLang,
-        runtime: movieDuration,
-        revenue,
-        release_date: movieDate,
-        genres,
-      } = clickedMovieDetails.myData;
-      createMovie(
-        movieBanner,
-        moviePoster,
-        imagePath,
-        title,
-        movieRate,
-        movieDuration,
-        revenue,
-        movieDate,
-        movieLang,
-        quote,
-        movieDesc
-      );
-      createGenres(genres, document.querySelector(".movie-genre"));
-      createCast(
-        clickedMovieCast.myData,
-        imagePath,
-        document.querySelector(".cast .swiper-wrapper"),
-        defaultPhoto
-      );
-      createSimillar(
-        clickedMovieSimillar.myData,
-        imagePath,
-        document.querySelector(".simillar .swiper-wrapper")
-      );
-      createSimillar(
-        clickedMovieRecommendations.myData,
-        imagePath,
-        document.querySelector(".recommendations .swiper-wrapper")
-      );
-    } catch (error) {
-      movieSkeleton.classList.add("hidden");
-      failedLoading.classList.remove("hidden");
-    }
+    await openMovieOrTV(
+      true,
+      ".open-movie",
+      e.target,
+      APIKEY,
+      movieSkeleton,
+      imagePath,
+      defaultPhoto,
+      failedLoading
+    );
   }
 
   if (e.target.closest(".open-tv")) {
-    removeCurrentSection();
-    movieSkeleton.classList.remove("hidden");
-    scrollToTop();
-
-    try {
-      let clickedMovie = e.target.closest(".open-tv");
-      let clickedMovieDetails = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "",
-        APIKEY
-      );
-
-      let clickedMovieCast = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "/credits",
-        APIKEY
-      );
-      let clickedMovieSimillar = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "/similar",
-        APIKEY
-      );
-      let clickedMovieRecommendations = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "/recommendations",
-        APIKEY
-      );
-
-      movieSkeleton.classList.add("hidden");
-      const {
-        name,
-        backdrop_path: movieBanner,
-        poster_path: moviePoster,
-        vote_average: movieRate,
-        tagline: quote,
-        overview: movieDesc,
-        spoken_languages: movieLang,
-        episode_run_time: movieDuration,
-        first_air_date: movieDate,
-        genres,
-        number_of_seasons,
-      } = clickedMovieDetails.myData;
-      createTV(
-        movieBanner,
-        moviePoster,
-        imagePath,
-        name,
-        movieRate,
-        movieDuration[0],
-        movieDate,
-        movieLang,
-        quote,
-        movieDesc
-      );
-      createGenres(genres, document.querySelector(".tv-genre"));
-      createCast(
-        clickedMovieCast.myData,
-        imagePath,
-        document.querySelector(".cast .swiper-wrapper"),
-        defaultPhoto
-      );
-
-      createSimillar(
-        clickedMovieSimillar.myData,
-        imagePath,
-        document.querySelector(".simillar .swiper-wrapper")
-      );
-      createSimillar(
-        clickedMovieRecommendations.myData,
-        imagePath,
-        document.querySelector(".recommendations .swiper-wrapper")
-      );
-      await createSeasons(
-        clickedMovie.id,
-        number_of_seasons,
-        document.querySelector(".seasons .swiper-wrapper"),
-        APIKEY
-      );
-      createThirdSeasonsObj();
-    } catch (error) {
-      movieSkeleton.classList.add("hidden");
-      failedLoading.classList.remove("hidden");
-      console.log(error);
-    }
+    await openMovieOrTV(
+      false,
+      ".open-tv",
+      e.target,
+      APIKEY,
+      movieSkeleton,
+      imagePath,
+      defaultPhoto,
+      failedLoading
+    );
   }
 
   if (e.target.closest(".cast-open")) {
-    let clickedCast = e.target.closest(".cast-open");
-    let getCastProfile = await getCustomData(
-      "https://api.themoviedb.org/3/person",
-      clickedCast.id,
-      "",
-      APIKEY
-    );
-    let getCastKnownFor = await getCustomData(
-      "https://api.themoviedb.org/3/person",
-      clickedCast.id,
-      "/movie_credits",
-      APIKEY
-    );
+    failedLoading.classList.add("hidden");
 
-    const {
-      known_for_department: knownFor,
-      name,
-      profile_path,
-      gender,
-      birthday,
-      biography,
-      place_of_birth,
-      id,
-    } = getCastProfile.myData;
-
-    scrollToTop();
-    removeCurrentSection();
-    createCastProfile(
-      imagePath,
-      profile_path,
-      defaultPhoto,
-      knownFor,
-      gender,
-      birthday,
-      place_of_birth,
-      name,
-      biography,
-      id
-    );
-    createKnownForMovie(
-      getCastKnownFor.myData.cast,
-      imagePath,
-      document.querySelector(".known-for-posters"),
-      moviePosterDefault
-    );
-  }
-
-  if (e.target.closest(".known-category")) {
-    document.querySelector(".known-for-posters").classList.add("min-h-500");
-    document.querySelector(".known-for-posters").innerHTML = "";
-    let clickedCategory = e.target.closest(".known-category");
-
-    document
-      .querySelectorAll(".known-category")
-      .forEach((category) =>
-        category.classList.remove("known-for-active", "navbar-active")
-      );
-    clickedCategory.classList.add("known-for-active", "navbar-active");
-
-    if (clickedCategory.classList.contains("known-movies")) {
-      let getCastKnownForMovie = await getCustomData(
+    try {
+      let clickedCast = e.target.closest(".cast-open");
+      let getCastProfile = await getCustomData(
         "https://api.themoviedb.org/3/person",
-        clickedCategory.id,
+        clickedCast.id,
+        "",
+        APIKEY
+      );
+      let getCastKnownFor = await getCustomData(
+        "https://api.themoviedb.org/3/person",
+        clickedCast.id,
         "/movie_credits",
         APIKEY
       );
 
+      const {
+        known_for_department: knownFor,
+        name,
+        profile_path,
+        gender,
+        birthday,
+        biography,
+        place_of_birth,
+        id,
+      } = getCastProfile.myData;
+
+      scrollToTop();
+      removeCurrentSection();
+      createCastProfile(
+        imagePath,
+        profile_path,
+        defaultPhoto,
+        knownFor,
+        gender,
+        birthday,
+        place_of_birth,
+        name,
+        biography,
+        id
+      );
       createKnownForMovie(
-        getCastKnownForMovie.myData.cast,
+        getCastKnownFor.myData.cast,
         imagePath,
         document.querySelector(".known-for-posters"),
         moviePosterDefault
       );
-
-      document
-        .querySelector(".known-for-details")
-        .scrollIntoView({ behavior: "smooth" });
-    } else if (clickedCategory.classList.contains("known-tv")) {
-      let getCastKnownForTV = await getCustomData(
-        "https://api.themoviedb.org/3/person",
-        clickedCategory.id,
-        "/tv_credits",
-        APIKEY
-      );
-
-      createKnownForTV(
-        getCastKnownForTV.myData.cast,
-        imagePath,
-        document.querySelector(".known-for-posters"),
-        moviePosterDefault
-      );
-
-      document
-        .querySelector(".known-for-details")
-        .scrollIntoView({ behavior: "smooth" });
+    } catch (error) {
+      movieSkeleton.classList.add("hidden");
+      failedLoading.classList.remove("hidden");
     }
+  }
 
-    document.querySelector(".known-for-posters").classList.remove("min-h-500");
+  if (e.target.closest(".known-category")) {
+    try {
+      document.querySelector(".known-for-posters").classList.add("min-h-500");
+      document.querySelector(".known-for-posters").innerHTML = "";
+
+      let clickedCategory = e.target.closest(".known-category");
+
+      failedLoading.classList.add("hidden");
+
+      document
+        .querySelectorAll(".known-category")
+        .forEach((category) =>
+          category.classList.remove("known-for-active", "navbar-active")
+        );
+      clickedCategory.classList.add("known-for-active", "navbar-active");
+
+      if (clickedCategory.classList.contains("known-movies")) {
+        try {
+          await renderKnownForMoviesOrTV(
+            true,
+            APIKEY,
+            createKnownForMovie,
+            clickedCategory
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (clickedCategory.classList.contains("known-tv")) {
+        try {
+          await renderKnownForMoviesOrTV(
+            false,
+            APIKEY,
+            createKnownForTV,
+            clickedCategory
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      document
+        .querySelector(".known-for-details")
+        .scrollIntoView({ behavior: "smooth" });
+
+      document
+        .querySelector(".known-for-posters")
+        .classList.remove("min-h-500");
+    } catch (error) {
+      movieSkeleton.classList.add("hidden");
+      failedLoading.classList.remove("hidden");
+    }
   }
 
   if (e.target.closest(".season")) {
     let clickedSeason = e.target.closest(".season");
-
-    let getClickedSeasonDetails = await getCustomData(
-      "https://api.themoviedb.org/3/tv",
-      clickedSeason.id,
-      `/season/${clickedSeason.getAttribute("data-season")}`,
-      APIKEY
-    );
-
-    const { name, air_date, poster_path, episodes } =
-      getClickedSeasonDetails.myData;
-    scrollToTop();
-    removeCurrentSection();
-    createSeasonDetails(
-      poster_path,
-      name,
-      air_date,
-      episodes,
-      imagePath,
-      clickedSeason.id
-    );
-  }
-
-  if (e.target.closest(".back-to-tv")) {
-    removeCurrentSection();
-    movieSkeleton.classList.remove("hidden");
-    scrollToTop();
+    failedLoading.classList.add("hidden");
 
     try {
-      let clickedMovie = e.target.closest(".back-to-tv");
-      let clickedMovieDetails = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "",
+      let getClickedSeasonDetails = await getCustomData(
+        "https://api.themoviedb.org/3/tv",
+        clickedSeason.id,
+        `/season/${clickedSeason.getAttribute("data-season")}`,
         APIKEY
       );
 
-      let clickedMovieCast = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "/credits",
-        APIKEY
-      );
-      let clickedMovieSimillar = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "/similar",
-        APIKEY
-      );
-      let clickedMovieRecommendations = await getCustomData(
-        `https://api.themoviedb.org/3/tv`,
-        clickedMovie.id,
-        "/recommendations",
-        APIKEY
-      );
-
-      movieSkeleton.classList.add("hidden");
-      const {
+      const { name, air_date, poster_path, episodes } =
+        getClickedSeasonDetails.myData;
+      scrollToTop();
+      removeCurrentSection();
+      createSeasonDetails(
+        poster_path,
         name,
-        backdrop_path: movieBanner,
-        poster_path: moviePoster,
-        vote_average: movieRate,
-        tagline: quote,
-        overview: movieDesc,
-        spoken_languages: movieLang,
-        episode_run_time: movieDuration,
-        first_air_date: movieDate,
-        genres,
-        number_of_seasons,
-      } = clickedMovieDetails.myData;
-      createTV(
-        movieBanner,
-        moviePoster,
+        air_date,
+        episodes,
         imagePath,
-        name,
-        movieRate,
-        movieDuration[0],
-        movieDate,
-        movieLang,
-        quote,
-        movieDesc
+        clickedSeason.id
       );
-      createGenres(genres, document.querySelector(".tv-genre"));
-      createCast(
-        clickedMovieCast.myData,
-        imagePath,
-        document.querySelector(".cast .swiper-wrapper"),
-        defaultPhoto
-      );
-
-      createSimillar(
-        clickedMovieSimillar.myData,
-        imagePath,
-        document.querySelector(".simillar .swiper-wrapper")
-      );
-      createSimillar(
-        clickedMovieRecommendations.myData,
-        imagePath,
-        document.querySelector(".recommendations .swiper-wrapper")
-      );
-      await createSeasons(
-        clickedMovie.id,
-        number_of_seasons,
-        document.querySelector(".seasons .swiper-wrapper"),
-        APIKEY
-      );
-      createThirdSeasonsObj();
     } catch (error) {
       movieSkeleton.classList.add("hidden");
       failedLoading.classList.remove("hidden");
-      console.log(error);
     }
+  }
+
+  if (e.target.closest(".back-to-tv")) {
+    await openMovieOrTV(
+      false,
+      ".back-to-tv",
+      e.target,
+      APIKEY,
+      movieSkeleton,
+      imagePath,
+      defaultPhoto,
+      failedLoading
+    );
   }
 
   // close search when clicked on search result
@@ -668,9 +451,8 @@ document.addEventListener("click", async (e) => {
   if (
     !e.target.closest(".search-input") &&
     !searchResultParent.contains(e.target)
-  ) {
+  )
     searchResultParent.classList.add("hidden");
-  }
 });
 
 // return menu and navbar to their places if triggered and the screen width bigger than 768px
@@ -686,19 +468,24 @@ window.addEventListener("resize", () => {
   }
 });
 
-await getDiscoveryData(
-  getData,
-  getPopular,
-  imagePath,
-  mostPopularSwiperWrapper,
-  upcomingMovie,
-  upcomingSwiperWrapper,
-  topRated,
-  topRatedSwiperWrapper,
-  nowPlaying,
-  nowPlayingSwiperWrapper,
-  trendingMovie,
-  trendingMovieDiv,
-  trendingTv,
-  trendingTvDiv
-);
+try {
+  await getDiscoveryData(
+    getData,
+    getPopular,
+    imagePath,
+    mostPopularSwiperWrapper,
+    upcomingMovie,
+    upcomingSwiperWrapper,
+    topRated,
+    topRatedSwiperWrapper,
+    nowPlaying,
+    nowPlayingSwiperWrapper,
+    trendingMovie,
+    trendingMovieDiv,
+    trendingTv,
+    trendingTvDiv
+  );
+} catch (error) {
+  movieSkeleton.classList.add("hidden");
+  failedLoading.classList.remove("hidden");
+}

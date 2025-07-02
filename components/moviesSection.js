@@ -367,8 +367,6 @@ export function createFilters(isMovie) {
       .querySelector(".movie-genre-select")
       .insertAdjacentHTML("beforeend", genreHTML);
   });
-
-  // document.querySelector(".movie-genre-select").value = "28";
 }
 
 export function createAllMoviesForMoviesSection(
