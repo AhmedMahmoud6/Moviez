@@ -3,6 +3,7 @@ export function discoverSwiperObj() {
     new Swiper(el, {
       slidesPerView: 4,
       slidesPerGroup: 4,
+      speed: 800,
       rewind: true,
       watchOverflow: true,
       spaceBetween: 30,
@@ -13,6 +14,10 @@ export function discoverSwiperObj() {
       navigation: {
         nextEl: el.querySelector(".swiper-button-next"),
         prevEl: el.querySelector(".swiper-button-prev"),
+      },
+      autoplay: {
+        delay: 4000,
+        pauseOnMouseEnter: true, // pause when hovered
       },
       breakpoints: {
         1280: {
@@ -48,10 +53,15 @@ export function createSecondCastObj() {
     rewind: true,
     watchOverflow: true,
     spaceBetween: 20,
+    speed: 800,
 
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
+    },
+    autoplay: {
+      delay: 4000,
+      pauseOnMouseEnter: true, // pause when hovered
     },
 
     breakpoints: {
@@ -77,14 +87,19 @@ export function createSecondCastObj() {
 }
 
 export function createThirdSeasonsObj() {
-  const secondSwiper = new Swiper(".seasons .second-swiper", {
+  const secondSwiper = new Swiper(".seasons .third-swiper", {
     // loop: true,
     slidesPerView: 1,
     slidesPerGroup: 1,
     rewind: true,
     watchOverflow: true,
     spaceBetween: 20,
+    speed: 600,
 
+    autoplay: {
+      delay: 3000,
+      pauseOnMouseEnter: true, // pause when hovered
+    },
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
@@ -100,11 +115,15 @@ export function createFourthSeasonsObj() {
     rewind: true,
     watchOverflow: true,
     spaceBetween: 20,
+    speed: 1300,
+    autoplay: {
+      delay: 4000,
+      pauseOnMouseEnter: true, // pause when hovered
+    },
 
     effect: "coverflow",
     grabCursor: true,
     centeredSlides: true,
-    slidesPerView: "auto",
     coverflowEffect: {
       rotate: 50,
       stretch: 0,
@@ -112,7 +131,7 @@ export function createFourthSeasonsObj() {
       modifier: 1,
       slideShadows: true,
     },
-    speed: 700,
+
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",

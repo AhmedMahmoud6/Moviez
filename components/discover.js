@@ -4,7 +4,7 @@ export function renderDiscover() {
 
   let discoverHTML = `
     <section
-      class="discover-container fade-in flex max-xl:flex-wrap md:pl-[280px] transition-all duration-300 transform translate-x-0"
+      class="discover-container relative fade-in flex max-xl:flex-wrap md:pl-[280px] transition-all duration-300 transform translate-x-0"
     >
       <section class="discover-content w-9/12 max-xl:w-full bg-[#1b1c22] p-8">
         <div class="content">

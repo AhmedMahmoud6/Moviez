@@ -36,7 +36,7 @@ export async function renderTrending(
 
   let trendingHTML = `
   <div
-    class="trending-image min-w-50 w-11/12 h-[200px] m-auto flex justify-center"
+    class="trending-image fade-in min-w-50 w-11/12 h-[200px] m-auto flex justify-center"
   >
     <img
       src="${imagePath}${backdrop_path}"
@@ -44,7 +44,7 @@ export async function renderTrending(
       alt="trending movie image"
     />
   </div>
-  <h2 class="text-white text-xl m-4">${movie ? title : name}</h2>
+  <h2 class="text-white fade-in text-xl m-4">${movie ? title : name}</h2>
   `;
 
   trendingDiv.id = id;
@@ -53,9 +53,15 @@ export async function renderTrending(
 }
 
 export async function getCustomData(api, movieId = "", custom = "", APIKEY) {
-  let requestData = await fetch(`${api}/${movieId}${custom}?api_key=${APIKEY}`);
-  let myData = await requestData.json();
-  return myData;
+  try {
+    let requestData = await fetch(
+      `${api}/${movieId}${custom}?api_key=${APIKEY}`
+    );
+    let myData = await requestData.json();
+    return { success: true, myData };
+  } catch (error) {
+    return { success: false };
+  }
 }
 
 export function scrollToTop() {
@@ -249,7 +255,6 @@ export async function updateMovieSectionMovies(
     { value: genreValue },
     { value: sortValue },
   ] = allFilters;
-  console.log(genreValue);
   let updatedFilteredMoviesData = await getData(
     `https://api.themoviedb.org/3/discover/${
       isMovie ? "movie" : "tv"

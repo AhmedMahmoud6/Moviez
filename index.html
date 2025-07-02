@@ -17,7 +17,7 @@
   </head>
   <body class="overflow-x-hidden bg-[#131417] max-md:bg-[#111215]">
     <nav
-      class="bg-[#131417] max-md:bg-[#111215] py-8 max-md:py-4 md:pl-70 max-md:px-3 pr-2 flex gap-10 max-md:gap-4 items-center transform translate-x-0 transition-all duration-300"
+      class="bg-[#131417] max-md:bg-[#111215] py-8 max-md:py-4 md:pl-70 max-md:px-3 pr-2 flex gap-10 max-md:gap-4 items-center transition-all duration-300"
     >
       <div
         class="mobile-menu-button bg-[#1b1c22] hover:bg-[#444857] min-w-12 min-h-12 rounded-full flex justify-center items-center transition-all duration-300 cursor-pointer hidden max-md:flex"
@@ -25,14 +25,17 @@
         <i class="fa-solid fa-bars text-gray-400"></i>
       </div>
       <div
-        class="search-container bg-[#191c21] flex items-center rounded-2xl min-w-50 xl:w-150 w-full"
+        class="search-container bg-[#191c21] flex items-center rounded-2xl min-w-50 xl:w-150 w-full relative"
       >
         <input
           type="text"
-          class="placeholder:text-gray-400 w-full h-full p-2 px-4 outline-none text-white"
+          class="search-input placeholder:text-gray-400 w-full h-full p-2 px-4 outline-none text-white"
           placeholder="Search"
         />
         <i class="fa-solid fa-magnifying-glass text-gray-400 px-4"></i>
+        <div
+          class="search-result-container bg-[#2c303a] absolute w-full h-fit min-h-10 max-h-80 z-50 top-14 rounded-xl p-3 overflow-auto flex flex-col gap-2 hidden"
+        ></div>
       </div>
 
       <div class="right-side flex gap-10 xl:flex hidden">

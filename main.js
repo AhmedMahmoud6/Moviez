@@ -31,6 +31,7 @@ import {
   createAllMoviesForMoviesSection,
   createMoviesSection,
 } from "./components/moviesSection.js";
+import { createSearchResult } from "./components/searchResult.js";
 
 let lastPage = 1;
 let currentPage = 1;
@@ -49,6 +50,9 @@ let trendingMovieDiv = document.querySelector(".trending-movie");
 let trendingTvDiv = document.querySelector(".trending-tv");
 let trendingParent = document.querySelector(".trending");
 let refreshButton = document.querySelector(".refresh");
+
+let searchInput = document.querySelector(".search-container input");
+let searchResultParent = document.querySelector(".search-result-container");
 
 let mostPopularSwiperWrapper = document.querySelector(
   ".most-popular .swiper-wrapper"
@@ -91,6 +95,7 @@ mobileMenuBtn.addEventListener("click", () => {
     document
       .querySelector("section:not(.movie-skeleton)")
       .classList.replace("translate-x-0", "translate-x-[280px]");
+    navbar.classList.add("transform", "translate-x-0");
     navbar.classList.replace("translate-x-0", "translate-x-[280px]");
     menuTriggered = true;
   } else {
@@ -99,12 +104,34 @@ mobileMenuBtn.addEventListener("click", () => {
       navbar,
       document.querySelector("section:not(.movie-skeleton)")
     );
+    navbar.classList.remove("transform", "translate-x-0");
+
     menuTriggered = false;
   }
 });
 
 refreshButton.addEventListener("click", () => {
   window.location.reload();
+});
+
+searchInput.addEventListener("input", async () => {
+  let userInput = searchInput.value.trim();
+  if (userInput) {
+    searchResultParent.classList.remove("hidden");
+
+    let searchReslutData = await getData(
+      `https://api.themoviedb.org/3/search/multi?query=${userInput}&api_key=${APIKEY}`
+    );
+    searchResultParent.innerHTML = "";
+    createSearchResult(searchReslutData.results, imagePath, searchResultParent);
+  } else {
+    searchResultParent.classList.add("hidden");
+  }
+});
+
+searchInput.addEventListener("click", () => {
+  let userInput = searchInput.value.trim();
+  if (userInput) searchResultParent.classList.remove("hidden");
 });
 
 document.addEventListener("click", async (e) => {
@@ -115,6 +142,7 @@ document.addEventListener("click", async (e) => {
       navbar,
       document.querySelector("section:not(.movie-skeleton)")
     );
+    navbar.classList.remove("transform", "translate-x-0");
     menuTriggered = false;
   }
 
@@ -126,6 +154,7 @@ document.addEventListener("click", async (e) => {
         navbar,
         document.querySelector("section:not(.movie-skeleton)")
       );
+      navbar.classList.remove("transform", "translate-x-0");
       menuTriggered = false;
     }
   }
@@ -289,7 +318,7 @@ document.addEventListener("click", async (e) => {
         revenue,
         release_date: movieDate,
         genres,
-      } = clickedMovieDetails;
+      } = clickedMovieDetails.myData;
       createMovie(
         movieBanner,
         moviePoster,
@@ -305,18 +334,18 @@ document.addEventListener("click", async (e) => {
       );
       createGenres(genres, document.querySelector(".movie-genre"));
       createCast(
-        clickedMovieCast,
+        clickedMovieCast.myData,
         imagePath,
         document.querySelector(".cast .swiper-wrapper"),
         defaultPhoto
       );
       createSimillar(
-        clickedMovieSimillar,
+        clickedMovieSimillar.myData,
         imagePath,
         document.querySelector(".simillar .swiper-wrapper")
       );
       createSimillar(
-        clickedMovieRecommendations,
+        clickedMovieRecommendations.myData,
         imagePath,
         document.querySelector(".recommendations .swiper-wrapper")
       );
@@ -359,7 +388,6 @@ document.addEventListener("click", async (e) => {
         APIKEY
       );
 
-      console.log(clickedMovieSimillar);
       movieSkeleton.classList.add("hidden");
       const {
         name,
@@ -373,7 +401,7 @@ document.addEventListener("click", async (e) => {
         first_air_date: movieDate,
         genres,
         number_of_seasons,
-      } = clickedMovieDetails;
+      } = clickedMovieDetails.myData;
       createTV(
         movieBanner,
         moviePoster,
@@ -388,19 +416,19 @@ document.addEventListener("click", async (e) => {
       );
       createGenres(genres, document.querySelector(".tv-genre"));
       createCast(
-        clickedMovieCast,
+        clickedMovieCast.myData,
         imagePath,
         document.querySelector(".cast .swiper-wrapper"),
         defaultPhoto
       );
 
       createSimillar(
-        clickedMovieSimillar,
+        clickedMovieSimillar.myData,
         imagePath,
         document.querySelector(".simillar .swiper-wrapper")
       );
       createSimillar(
-        clickedMovieRecommendations,
+        clickedMovieRecommendations.myData,
         imagePath,
         document.querySelector(".recommendations .swiper-wrapper")
       );
@@ -442,7 +470,7 @@ document.addEventListener("click", async (e) => {
       biography,
       place_of_birth,
       id,
-    } = getCastProfile;
+    } = getCastProfile.myData;
 
     scrollToTop();
     removeCurrentSection();
@@ -459,7 +487,7 @@ document.addEventListener("click", async (e) => {
       id
     );
     createKnownForMovie(
-      getCastKnownFor.cast,
+      getCastKnownFor.myData.cast,
       imagePath,
       document.querySelector(".known-for-posters"),
       moviePosterDefault
@@ -487,7 +515,7 @@ document.addEventListener("click", async (e) => {
       );
 
       createKnownForMovie(
-        getCastKnownForMovie.cast,
+        getCastKnownForMovie.myData.cast,
         imagePath,
         document.querySelector(".known-for-posters"),
         moviePosterDefault
@@ -505,7 +533,7 @@ document.addEventListener("click", async (e) => {
       );
 
       createKnownForTV(
-        getCastKnownForTV.cast,
+        getCastKnownForTV.myData.cast,
         imagePath,
         document.querySelector(".known-for-posters"),
         moviePosterDefault
@@ -529,7 +557,8 @@ document.addEventListener("click", async (e) => {
       APIKEY
     );
 
-    const { name, air_date, poster_path, episodes } = getClickedSeasonDetails;
+    const { name, air_date, poster_path, episodes } =
+      getClickedSeasonDetails.myData;
     scrollToTop();
     removeCurrentSection();
     createSeasonDetails(
@@ -575,7 +604,6 @@ document.addEventListener("click", async (e) => {
         APIKEY
       );
 
-      console.log(clickedMovieSimillar);
       movieSkeleton.classList.add("hidden");
       const {
         name,
@@ -589,7 +617,7 @@ document.addEventListener("click", async (e) => {
         first_air_date: movieDate,
         genres,
         number_of_seasons,
-      } = clickedMovieDetails;
+      } = clickedMovieDetails.myData;
       createTV(
         movieBanner,
         moviePoster,
@@ -604,19 +632,19 @@ document.addEventListener("click", async (e) => {
       );
       createGenres(genres, document.querySelector(".tv-genre"));
       createCast(
-        clickedMovieCast,
+        clickedMovieCast.myData,
         imagePath,
         document.querySelector(".cast .swiper-wrapper"),
         defaultPhoto
       );
 
       createSimillar(
-        clickedMovieSimillar,
+        clickedMovieSimillar.myData,
         imagePath,
         document.querySelector(".simillar .swiper-wrapper")
       );
       createSimillar(
-        clickedMovieRecommendations,
+        clickedMovieRecommendations.myData,
         imagePath,
         document.querySelector(".recommendations .swiper-wrapper")
       );
@@ -632,6 +660,20 @@ document.addEventListener("click", async (e) => {
       failedLoading.classList.remove("hidden");
       console.log(error);
     }
+  }
+
+  // close search when clicked on search result
+  if (e.target.closest(".result-clicked")) {
+    searchInput.value = "";
+    searchResultParent.classList.add("hidden");
+  }
+
+  // close search when clicking anywhere except the search
+  if (
+    !e.target.closest(".search-input") &&
+    !searchResultParent.contains(e.target)
+  ) {
+    searchResultParent.classList.add("hidden");
   }
 });
 
