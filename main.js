@@ -183,16 +183,28 @@ document.addEventListener("click", async (e) => {
       document
         .querySelector(".filters")
         .addEventListener("change", async () => {
+          document
+            .querySelectorAll(".pagination")
+            .forEach((pagination) => pagination.classList.remove("hidden"));
           currentPage = 1;
           let pageText = document.querySelectorAll(".page-number");
-          updatePaginationDisabled(currentPage, lastPage);
+
           for (let i of pageText) i.textContent = currentPage;
           let updatedMovies = await updateMovieSectionMovies(
             APIKEY,
             imagePath,
             currentPage
           );
-          lastPage = updatedMovies;
+          lastPage = updatedMovies.totalPages;
+          updatePaginationDisabled(currentPage, lastPage);
+
+          if (updatedMovies.data.total_results === 0) {
+            document
+              .querySelectorAll(".pagination")
+              .forEach((pagination) => pagination.classList.add("hidden"));
+            document.querySelector(".all-displayed-movies").innerHTML =
+              "<h1 class='absolute w-full text-red-400 text-xl text-center font-bold'>No results found</h1>";
+          }
         });
     }
   }

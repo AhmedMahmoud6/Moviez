@@ -260,12 +260,23 @@ export async function updateMovieSectionMovies(APIKEY, imagePath, currentPage) {
   });
 
   displayedMovieContainer.classList.remove("min-h-500");
-  return updatedFilteredMoviesData.total_pages;
+  return {
+    totalPages: updatedFilteredMoviesData.total_pages,
+    data: updatedFilteredMoviesData,
+  };
 }
 
 export function updatePaginationDisabled(currentPage, lastPage) {
   restartPaginationDisabled();
-  if (currentPage === 1) {
+  if (currentPage === lastPage) {
+    document
+      .querySelectorAll(".first-parent button")
+      .forEach((btn) => (btn.disabled = true));
+    document
+      .querySelectorAll(".last-parent button")
+      .forEach((btn) => (btn.disabled = true));
+    console.log("yes");
+  } else if (currentPage === 1) {
     document
       .querySelectorAll(".first-parent button")
       .forEach((btn) => (btn.disabled = true));

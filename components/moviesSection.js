@@ -153,7 +153,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
           </div>
         </div>
 
-        <div class="all-displayed-movies grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6 mt-10"></div>
+        <div class="all-displayed-movies grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 min-[0px]:grid-cols-1 gap-6 mt-10 relative"></div>
       </div>
     </section>
     `;
