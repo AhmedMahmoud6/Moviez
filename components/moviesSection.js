@@ -6,7 +6,7 @@ import {
 } from "./movie.js";
 import { createPagination } from "./pagination.js";
 
-export const allGenres = {
+export const allMovieGenres = {
   genres: [
     {
       id: 28,
@@ -87,7 +87,80 @@ export const allGenres = {
   ],
 };
 
-export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
+export const allTVGenres = {
+  genres: [
+    {
+      id: 10759,
+      name: "Action & Adventure",
+    },
+    {
+      id: 16,
+      name: "Animation",
+    },
+    {
+      id: 35,
+      name: "Comedy",
+    },
+    {
+      id: 80,
+      name: "Crime",
+    },
+    {
+      id: 99,
+      name: "Documentary",
+    },
+    {
+      id: 18,
+      name: "Drama",
+    },
+    {
+      id: 10751,
+      name: "Family",
+    },
+    {
+      id: 10762,
+      name: "Kids",
+    },
+    {
+      id: 9648,
+      name: "Mystery",
+    },
+    {
+      id: 10763,
+      name: "News",
+    },
+    {
+      id: 10764,
+      name: "Reality",
+    },
+    {
+      id: 10765,
+      name: "Sci-Fi & Fantasy",
+    },
+    {
+      id: 10766,
+      name: "Soap",
+    },
+    {
+      id: 10767,
+      name: "Talk",
+    },
+    {
+      id: 10768,
+      name: "War & Politics",
+    },
+    {
+      id: 37,
+      name: "Western",
+    },
+  ],
+};
+
+export function createMoviesSection(
+  getMoviesSectionShowcaseData,
+  imagePath,
+  isMovie
+) {
   let movieSectionHTML = `
         <section
       class="movie-section md:pl-[280px] translate-x-0 transition-all duration-300"
@@ -162,9 +235,10 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
   createShowcase(
     getMoviesSectionShowcaseData,
     imagePath,
-    document.querySelector(".showcase .swiper-wrapper")
+    document.querySelector(".showcase .swiper-wrapper"),
+    isMovie
   );
-  createFilters();
+  createFilters(isMovie);
   createPagination(document.querySelector(".all-displayed-movies"));
   createFourthSeasonsObj();
 }
@@ -172,21 +246,24 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
 export function createShowcase(
   getMoviesSectionShowcaseData,
   imagePath,
-  swiperParent
+  swiperParent,
+  isMovie
 ) {
   getMoviesSectionShowcaseData.results.forEach((movie) => {
     const {
       title,
+      name,
       id,
       backdrop_path: movieBanner,
       vote_average,
       overview,
       genre_ids,
     } = movie;
+    console.log(movie);
 
-    const matchingGenres = allGenres.genres.filter((genre) =>
-      genre_ids.includes(genre.id)
-    );
+    const matchingGenres = isMovie
+      ? allMovieGenres.genres.filter((genre) => genre_ids.includes(genre.id))
+      : allTVGenres.genres.filter((genre) => genre_ids.includes(genre.id));
 
     let showcaseHTML = `
            <div class="swiper-slide h-full">
@@ -210,7 +287,7 @@ export function createShowcase(
                        <h1
                        class="text-5xl max-xl:text-4xl text-white font-bold max-lg:text-center"
                        >
-                       ${title}
+                       ${isMovie ? title : name}
                        </h1>
        
                        <div class="movie-rating-parent flex items-center gap-4">
@@ -249,7 +326,9 @@ export function createShowcase(
                        <h1 class="font-bold">PLAY TRAILER</h1>
                        </button>
                        <button
-                       class="text-gray-400 open-movie flex justify-center items-center gap-4 outline-2 outline-gray-400 p-3 px-12 max-[1430px]:px-6 cursor-pointer hover:bg-white hover:text-black hover:outline-transparent transition-all duration-200 max-[500px]:text-sm"
+                       class="text-gray-400 ${
+                         isMovie ? "open-movie" : "open-tv"
+                       }  flex justify-center items-center gap-4 outline-2 outline-gray-400 p-3 px-12 max-[1430px]:px-6 cursor-pointer hover:bg-white hover:text-black hover:outline-transparent transition-all duration-200 max-[500px]:text-sm"
                        id="${id}"
                        >
                        <h1 class="font-bold uppercase">
@@ -271,7 +350,7 @@ export function createShowcase(
   });
 }
 
-export function createFilters() {
+export function createFilters(isMovie) {
   let currentYear = new Date();
   for (let year = 1990; year <= currentYear.getFullYear(); year++) {
     let yearOptionHTML = `<option value="${year}">${year}</option>`;
@@ -281,14 +360,16 @@ export function createFilters() {
   }
   document.querySelector(".movie-year").value = currentYear.getFullYear();
 
-  allGenres.genres.forEach((genre) => {
+  let selectedGenre;
+  isMovie ? (selectedGenre = allMovieGenres) : (selectedGenre = allTVGenres);
+  selectedGenre.genres.forEach((genre) => {
     let genreHTML = `<option value="${genre.id}">${genre.name}</option>`;
     document
       .querySelector(".movie-genre-select")
       .insertAdjacentHTML("beforeend", genreHTML);
   });
 
-  document.querySelector(".movie-genre-select").value = "28";
+  // document.querySelector(".movie-genre-select").value = "28";
 }
 
 export function createAllMoviesForMoviesSection(
@@ -296,11 +377,14 @@ export function createAllMoviesForMoviesSection(
   imagePath,
   poster_path,
   movieName,
-  movieRate
+  movieRate,
+  isMovie
 ) {
   let movieHTML = `
     <div
-        class="displayed-movie open-movie fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
+        class="displayed-movie ${
+          isMovie ? "open-movie" : "open-tv"
+        } fade-in min-h-[250px] max-xl:min-h-[0px] flex flex-col gap-2 cursor-pointer select-none"
         id="${movieId}"
     >
         <img

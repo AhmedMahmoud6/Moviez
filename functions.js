@@ -229,7 +229,12 @@ export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export async function updateMovieSectionMovies(APIKEY, imagePath, currentPage) {
+export async function updateMovieSectionMovies(
+  APIKEY,
+  imagePath,
+  currentPage,
+  isMovie
+) {
   document.querySelector(".filtering").scrollIntoView({ behavior: "smooth" });
 
   let displayedMovieContainer = document.querySelector(".all-displayed-movies");
@@ -244,18 +249,24 @@ export async function updateMovieSectionMovies(APIKEY, imagePath, currentPage) {
     { value: genreValue },
     { value: sortValue },
   ] = allFilters;
+  console.log(genreValue);
   let updatedFilteredMoviesData = await getData(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&primary_release_year=${yearValue}&with_original_language=${languageValue}&vote_average.gte=${rateValue}&with_genres=${genreValue}&sort_by=${sortValue}&page=${currentPage}`
+    `https://api.themoviedb.org/3/discover/${
+      isMovie ? "movie" : "tv"
+    }?api_key=${APIKEY}&${
+      isMovie ? "primary_release_year" : "first_air_date_year"
+    }=${yearValue}&with_original_language=${languageValue}&vote_average.gte=${rateValue}&with_genres=${genreValue}&sort_by=${sortValue}&page=${currentPage}`
   );
 
   updatedFilteredMoviesData.results.forEach((movie) => {
-    const { title, id, poster_path, vote_average } = movie;
+    const { title, name, id, poster_path, vote_average } = movie;
     createAllMoviesForMoviesSection(
       id,
       imagePath,
       poster_path,
-      title,
-      vote_average
+      isMovie ? title : name,
+      vote_average,
+      isMovie
     );
   });
 

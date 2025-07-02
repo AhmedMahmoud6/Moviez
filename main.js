@@ -34,6 +34,7 @@ import {
 
 let lastPage = 1;
 let currentPage = 1;
+let isMovie = true;
 
 renderDiscover();
 discoverSwiperObj();
@@ -158,25 +159,43 @@ document.addEventListener("click", async (e) => {
         trendingTv,
         document.querySelector(".trending-tv")
       );
-    } else if (selectedSwitch === "movies") {
+    } else if (selectedSwitch === "movies" || selectedSwitch === "tv") {
+      if (selectedSwitch === "movies") isMovie = true;
+      else isMovie = false;
+
       removeCurrentSection();
+
       let currentYear = new Date();
-      let getMoviesSectionShowcaseData = await getData(nowPlaying);
-      createMoviesSection(getMoviesSectionShowcaseData, imagePath);
+      let getMoviesSectionShowcaseData = await getData(
+        isMovie
+          ? nowPlaying
+          : `https://api.themoviedb.org/3/trending/tv/week?api_key=${APIKEY}&language=en-US&page=1`
+      );
+
+      createMoviesSection(getMoviesSectionShowcaseData, imagePath, isMovie);
+      currentPage = 1;
+
       let getMoviesSectionFilteredData = await getData(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${APIKEY}&primary_release_year=${currentYear.getFullYear()}&sort_by=popularity.desc&vote_average.gte=6&with_original_language=en&with_genres=28`
+        `https://api.themoviedb.org/3/discover/${
+          isMovie ? "movie" : "tv"
+        }?api_key=${APIKEY}&${
+          isMovie ? "primary_release_year" : "first_air_date_year"
+        }=${currentYear.getFullYear()}&sort_by=popularity.desc&vote_average.gte=6&with_original_language=en&with_genres=${
+          isMovie ? "28" : "10759"
+        }&page=1`
       );
 
       lastPage = getMoviesSectionFilteredData.total_pages;
 
       getMoviesSectionFilteredData.results.forEach((movie) => {
-        const { title, id, poster_path, vote_average } = movie;
+        const { title, name, id, poster_path, vote_average } = movie;
         createAllMoviesForMoviesSection(
           id,
           imagePath,
           poster_path,
-          title,
-          vote_average
+          isMovie ? title : name,
+          vote_average,
+          isMovie
         );
       });
       updatePaginationDisabled(currentPage, lastPage);
@@ -193,7 +212,8 @@ document.addEventListener("click", async (e) => {
           let updatedMovies = await updateMovieSectionMovies(
             APIKEY,
             imagePath,
-            currentPage
+            currentPage,
+            isMovie
           );
           lastPage = updatedMovies.totalPages;
           updatePaginationDisabled(currentPage, lastPage);
@@ -221,7 +241,7 @@ document.addEventListener("click", async (e) => {
 
     for (let i of pageText) i.textContent = currentPage;
     updatePaginationDisabled(currentPage, lastPage);
-    await updateMovieSectionMovies(APIKEY, imagePath, currentPage);
+    await updateMovieSectionMovies(APIKEY, imagePath, currentPage, isMovie);
   }
 
   if (e.target.closest(".open-movie")) {
