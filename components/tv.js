@@ -155,7 +155,7 @@ export function createTV(
         <div class="seasons w-full">
           <h2 class="uppercase text-white text-2xl mb-5">seasons</h2>
           <div
-            class="second-swiper overflow-hidden relative pb-10 max-2xl:pb-20 w-full"
+            class="third-swiper overflow-hidden relative pb-10 max-2xl:pb-20 w-full"
           >
             <div class="swiper-wrapper">
             
@@ -192,37 +192,43 @@ export function createTV(
 
 export async function createSeasons(tvId, totalSeasons, seasonsParent, APIKEY) {
   let allSeasons = [];
-  for (let i = 1; i <= totalSeasons; i++) {
-    let getSeason = await getCustomData(
-      "https://api.themoviedb.org/3/tv",
-      tvId,
-      `/season/${i}`,
-      APIKEY
-    );
-    allSeasons.push(getSeason);
+  try {
+    for (let i = 1; i <= totalSeasons; i++) {
+      let getSeason = await getCustomData(
+        "https://api.themoviedb.org/3/tv",
+        tvId,
+        `/season/${i}`,
+        APIKEY
+      );
+
+      const { success } = getSeason.myData;
+      if (success === false) continue;
+      if (getSeason.success) allSeasons.push(getSeason.myData);
+    }
+
+    allSeasons.forEach((season) => {
+      const { name, overview, air_date, season_number } = season;
+      let seasonHTML = `
+            <div class="swiper-slide">
+                <div class="season w-full p-8 bg-[#2c303a] flex items-center gap-10 rounded-xl max-h-[400px] cursor-pointer" id="${tvId}" data-season="${season_number}">
+                    <div class="season-details w-full flex flex-col gap-1 pr-4">
+                        <h1 class="text-white text-xl">${
+                          name ? name : "No Name"
+                        }</h1>
+                        <h2 class="text-gray-400 text-xl mb-4">${
+                          air_date ? air_date.split("-")[0] : "No Date"
+                        }</h2>
+                        <p class="text-white text-xl overflow-auto max-h-70">${
+                          overview ? overview : ""
+                        } </p>
+                    </div>
+                </div>
+            </div>
+            `;
+
+      seasonsParent.insertAdjacentHTML("beforeend", seasonHTML);
+    });
+  } catch (error) {
+    console.log(error);
   }
-  console.log(allSeasons);
-
-  allSeasons.forEach((season) => {
-    const { name, overview, air_date, season_number } = season;
-    let seasonHTML = `
-          <div class="swiper-slide">
-              <div class="season w-full p-8 bg-[#2c303a] flex items-center gap-10 rounded-xl max-h-[400px] cursor-pointer" id="${tvId}" data-season="${season_number}">
-                  <div class="season-details w-full flex flex-col gap-1 pr-4">
-                      <h1 class="text-white text-xl">${
-                        name ? name : "No Name"
-                      }</h1>
-                      <h2 class="text-gray-400 text-xl mb-4">${
-                        air_date ? air_date.split("-")[0] : "No Date"
-                      }</h2>
-                      <p class="text-white text-xl overflow-auto max-h-70">${
-                        overview ? overview : ""
-                      } </p>
-                  </div>
-              </div>
-          </div>
-          `;
-
-    seasonsParent.insertAdjacentHTML("beforeend", seasonHTML);
-  });
 }

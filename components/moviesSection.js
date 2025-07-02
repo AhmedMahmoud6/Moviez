@@ -259,7 +259,6 @@ export function createShowcase(
       overview,
       genre_ids,
     } = movie;
-    console.log(movie);
 
     const matchingGenres = isMovie
       ? allMovieGenres.genres.filter((genre) => genre_ids.includes(genre.id))
