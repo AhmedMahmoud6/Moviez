@@ -4,6 +4,7 @@ import {
   movieBannerDefault,
   moviePosterDefault,
 } from "./movie.js";
+import { createPagination } from "./pagination.js";
 
 export const allGenres = {
   genres: [
@@ -103,7 +104,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
       </div>
 
       <div class="all-movies-section my-10 p-20 max-lg:px-10">
-        <div class="filtering flex gap-4 xl:items-center flex-col xl:flex-row">
+        <div class="filtering flex gap-4 xl:items-center flex-col xl:flex-row fade-in">
           <h1 class="text-3xl text-white font-bold max-lg:text-center">
             All Movies
           </h1>
@@ -164,6 +165,7 @@ export function createMoviesSection(getMoviesSectionShowcaseData, imagePath) {
     document.querySelector(".showcase .swiper-wrapper")
   );
   createFilters();
+  createPagination(document.querySelector(".all-displayed-movies"));
   createFourthSeasonsObj();
 }
 
